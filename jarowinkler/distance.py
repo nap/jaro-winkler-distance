@@ -13,6 +13,11 @@ __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
 
 
 def get_jaro_distance(first, second):
+    if not first or not second:
+        raise JaroDistanceException("Cannot calculate distance from NoneType ({0}, {1})".format(
+            first.__class__.__name__,
+            second.__class__.__name__))
+
     jaro = _score(first, second)
     cl = min(len(_get_prefix(first, second)), 4)
 
@@ -86,3 +91,7 @@ def _get_matching_characters(first, second):
 
 def _transpositions(first, second):
     return len([(f, s) for f, s in zip(first, second) if not f == s])
+
+
+class JaroDistanceException(Exception):
+    pass

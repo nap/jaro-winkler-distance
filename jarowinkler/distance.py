@@ -63,6 +63,9 @@ def _get_diff_index(first, second):
 
 
 def _get_prefix(first, second):
+    if not first or not second:
+        return ""
+
     if not len(first) or not len(second):
         return ""
 
@@ -90,7 +93,7 @@ def _get_matching_characters(first, second):
 
 
 def _transpositions(first, second):
-    return len([(f, s) for f, s in zip(first, second) if not f == s])
+    return len([(f, s) for f, s in zip(first, second) if not f == s]) / 2
 
 
 class JaroDistanceException(Exception):

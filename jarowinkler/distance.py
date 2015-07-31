@@ -51,22 +51,16 @@ def _get_diff_index(first, second):
     if not first or not second:
         return 0
 
-    i = -1
-    for i in xrange(0, min(len(first), len(second))):
+    max_len = min(len(first), len(second))
+    for i in xrange(0, max_len):
         if not first[i] == second[i]:
             return i
 
-    if i < len(first) or i < len(second):
-        return min(len(first), len(second))
-
-    return -1
+    return max_len
 
 
 def _get_prefix(first, second):
     if not first or not second:
-        return ""
-
-    if not len(first) or not len(second):
         return ""
 
     index = _get_diff_index(first, second)

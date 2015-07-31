@@ -43,8 +43,7 @@ class TestDistance(unittest.TestCase):
         self.assertEquals(distance._get_diff_index("abcde", "abxyz"), 2)
 
     def test_get_matching_characters(self):
-        self.assertEqual(distance._get_matching_characters("hello", "halloa"), "hllo",
-                         "The matching character should be hel")
+        self.assertEqual(distance._get_matching_characters("hello", "halloa"), "hllo")
         self.assertEquals(distance._get_matching_characters("ABC Corporation",
                                                             "ABC Corp"), "ABC Corp")
         self.assertEquals(distance._get_matching_characters("PENNSYLVANIA",
@@ -71,6 +70,7 @@ class TestDistance(unittest.TestCase):
     def test_score(self):
         self.assertEquals(distance._score("", ""), 0.0)
         self.assertEquals(distance._score("", "a"), 0.0)
+        self.assertEquals(distance._score("ZDVSXA", "ZWEIUHFSAD"), 0.0)
         self.assertEquals(distance._score("aaapppp", ""), 0.0)
         self.assertEquals(distance._score("frog", "fog"), 0.9166666666666666)
         self.assertEquals(distance._score("fly", "ant"), 0.0)

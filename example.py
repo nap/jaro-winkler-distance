@@ -1,6 +1,6 @@
 __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
 
-from jarowinkler import distance
+from pyjarowinkler import distance
 
 if __name__ == "__main__":
     first = "hello"

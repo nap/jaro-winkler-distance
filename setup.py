@@ -3,7 +3,7 @@ __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
 from setuptools import setup, find_packages
 
 setup_info = {
-    'name': 'jarowinkler',
+    'name': 'pyjarowinkler',
     'version': '0.1.0',
     'maintainer': __author__.split(' - ')[0],
     'maintainer_email': __author__.split(' - ')[1],

@@ -1,6 +1,6 @@
 __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
 import unittest
-from jarowinkler import distance
+from pyjarowinkler import distance
 
 
 class TestDistance(unittest.TestCase):

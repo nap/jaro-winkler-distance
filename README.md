@@ -6,3 +6,6 @@ This implementation is based on the Jaro Winkler similarity algorithm from
 
 This Python implementation is based on the Apache StringUtils implementation from
     http://commons.apache.org/proper/commons-lang/apidocs/src-html/org/apache/commons/lang3/StringUtils.html#line.7141
+
+PiPy
+    https://pypi.python.org/pypi/pyjarowinkler/0.1.0

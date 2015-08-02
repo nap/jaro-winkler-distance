@@ -9,8 +9,10 @@ setup_info = {
     'maintainer_email': __author__.split(' - ')[1],
     'author': __author__.split(' - ')[0],
     'author_email': __author__.split(' - ')[1],
-    'url': 'http://{0}'.format(__author__.split('@')[1]),
+    'url': 'https://github.com/nap/jaro-winkler-distance',
     'license': 'http://www.apache.org/licenses/',
+    'summary': 'Find the Jaro Winkler Distance which indicates the similarity score between two Strings',
+    'platform': ['linux'],
     'packages': find_packages(),
     'classifiers': [
         'Development Status :: 5 - Production/Stable',

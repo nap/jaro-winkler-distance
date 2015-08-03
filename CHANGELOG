@@ -3,6 +3,7 @@
     Changed MD for RST
     Added changelog file
     Update README
+    Enforce specific python version (<2.7)
     Update setup.py
 
 0.1.0 (2015-07-31)

@@ -1,5 +1,9 @@
 0.1.1 (2015-08-02)
     Fix for bad unittest
+    Changed MD for RST
+    Added changelog file
+    Update README
+    Update setup.py
 
 0.1.0 (2015-07-31)
     Initial project

@@ -1,9 +1,24 @@
 Jaro Winkler Distance
 =====================
-Find the Jaro Winkler Distance which indicates the similarity score between two Strings. The Jaro measure is the weighted sum of percentage of matched characters from each file and transposed characters. Winkler increased this measure for matching initial characters.
+Find the Jaro Winkler Distance which indicates the similarity score between two Strings.
+The Jaro measure is the weighted sum of percentage of matched characters from each file
+and transposed characters. Winkler increased this measure for matching initial characters.
 
-This implementation is based on the Jaro Winkler similarity algorithm from
-    http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance
+The Implementation
+------------------
+The original implementation is based on the `Jaro Winkler Similarity Algorithm <http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance>`_ article that can be found on `Wikipedia <http://wikipedia.org>`_.
+This Python version of the original implementation is based on the `Apache StringUtils Implementation <http://commons.apache.org/proper/commons-lang/apidocs/src-html/org/apache/commons/lang3/StringUtils.html#line.7141>`_ library.
 
-This Python implementation is based on the Apache StringUtils implementation from
-    http://commons.apache.org/proper/commons-lang/apidocs/src-html/org/apache/commons/lang3/StringUtils.html#line.7141
+Correctness
+-----------
+Unittest similar to what you will find in the ``StringUtils`` library were used to validate implementation.
+
+Example
+-------
+
+::
+
+    >>> from pyjarowinkler import distance
+    >>> print distance.get_jaro_distance("hello", "haloa")
+    0.76
+:Version: 0.1.1 of 2015-08-02

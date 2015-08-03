@@ -6,8 +6,8 @@ import sys
 from setuptools import setup, find_packages
 
 
-if sys.version_info[0] == 2 and sys.version_info[1] < 7:
-    sys.exit('Sorry, Python < 2.7 is not supported')
+if sys.version_info[:2] < (2, 7):
+    raise RuntimeError('pyjarowinkler requires Python 2.7 or (untested on python 3)')
 
 
 def read(fname):

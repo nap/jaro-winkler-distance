@@ -22,7 +22,7 @@ setup_info = {
     'platforms': ['Linux'],
     'keywords': 'jaro winkler distance score string delta diff',
     'packages': find_packages(),
-    'long_description': read('README.md'),
+    'long_description': read('README.rst'),
     'classifiers': [
         'Development Status :: 5 - Production/Stable',
         'Environment :: Other Environment',

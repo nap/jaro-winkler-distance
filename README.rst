@@ -10,7 +10,7 @@ and transposed characters. Winkler increased this measure for matching initial c
 The Implementation
 ------------------
 The original implementation is based on the `Jaro Winkler Similarity Algorithm <http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance>`_ article that can be found on `Wikipedia <http://wikipedia.org>`_.
-This Python version of the original implementation is based on the `Apache StringUtils Implementation <http://commons.apache.org/proper/commons-lang/apidocs/src-html/org/apache/commons/lang3/StringUtils.html#line.7141>`_ library.
+This Python version of the original implementation is based on the `Apache StringUtils <http://commons.apache.org/proper/commons-lang/apidocs/src-html/org/apache/commons/lang3/StringUtils.html#line.7141>`_ library.
 
 Correctness
 -----------

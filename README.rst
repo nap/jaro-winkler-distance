@@ -1,5 +1,8 @@
 Jaro Winkler Distance
 =====================
+
+**Require python >= 2.7**
+
 Find the Jaro Winkler Distance which indicates the similarity score between two Strings.
 The Jaro measure is the weighted sum of percentage of matched characters from each file
 and transposed characters. Winkler increased this measure for matching initial characters.

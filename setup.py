@@ -2,7 +2,12 @@ __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
 __version__ = '0.1.0'
 
 import os
+import sys
 from setuptools import setup, find_packages
+
+
+if sys.version_info[0] == 2 and sys.version_info[1] < 7:
+    sys.exit('Sorry, Python < 2.7 is not supported')
 
 
 def read(fname):

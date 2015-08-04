@@ -6,7 +6,9 @@ notifications:
         admin@unary.ca
 env:
     - PYTHONPATH=./
-install: pip install coveralls pep8
+install:
+    - pip install coveralls
+    - pip install pep8
 script:
     - pep8 pyjarowinkler/* test/* --ignore E501
     - py.test test/test_distance.py

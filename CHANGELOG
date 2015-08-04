@@ -1,4 +1,4 @@
-0.1.2 (2015-0X-XX)
+0.1.2 (2015-08-04)
     Modified python version check, will now raise an exception
     Fix for PyPi parser error
     Added support for py.test

@@ -1,0 +1,7 @@
+language: python
+python:
+  - "2.7"
+notifications:
+    email:
+        admin@unary.ca
+script: python  test/test_distance.py

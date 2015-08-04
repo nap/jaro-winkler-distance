@@ -4,6 +4,8 @@
     Added support for py.test
     Added travis ci build
     Removed __init__.py from test dir
+    Added pep8 to travis ci
+    Reorg import to fix pep8
 
 0.1.1 (2015-08-02)
     Fix for bad unittest

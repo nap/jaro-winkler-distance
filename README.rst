@@ -1,6 +1,9 @@
 Jaro Winkler Distance
 =====================
 
+.. image:: https://travis-ci.org/nap/jaro-winkler-distance.svg?branch=master
+    :target: https://travis-ci.org/nap/jaro-winkler-distance
+
 **Require python >= 2.7**
 
 Find the Jaro Winkler Distance which indicates the similarity score between two Strings.

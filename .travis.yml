@@ -4,4 +4,6 @@ python:
 notifications:
     email:
         admin@unary.ca
-script: export PYTHONPATH=./ ; python test/test_distance.py
+env:
+    - PYTHONPATH=./
+script: python test/test_distance.py

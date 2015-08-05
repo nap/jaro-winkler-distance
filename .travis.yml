@@ -1,9 +1,11 @@
 language: python
 python:
-  - "2.7"
+    - "2.7"
 notifications:
+    irc:
+        - "chat.freenode.net#unary"
     email:
-        admin@unary.ca
+        - "admin@unary.ca"
 env:
     - PYTHONPATH=./
 install:
@@ -14,4 +16,4 @@ script:
     - py.test test/test_distance.py
     - coverage run --source=pyjarowinkler test/test_distance.py
 after_success:
-    coveralls
+    - coveralls

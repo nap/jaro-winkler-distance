@@ -3,12 +3,12 @@ Jaro Winkler Distance
 
 .. image:: https://travis-ci.org/nap/jaro-winkler-distance.svg?branch=master
     :target: https://travis-ci.org/nap/jaro-winkler-distance
-
 .. image:: https://coveralls.io/repos/nap/jaro-winkler-distance/badge.svg?branch=master&service=github
-  :target: https://coveralls.io/github/nap/jaro-winkler-distance?branch=master
-
-
-**Require python >= 2.7**
+    :target: https://coveralls.io/github/nap/jaro-winkler-distance?branch=master
+.. image:: https://img.shields.io/github/license/nap/jaro-winkler-distance.svg
+    :target: https://raw.githubusercontent.com/nap/jaro-winkler-distance/master/LICENSE
+.. image:: https://img.shields.io/pypi/pyversions/pyjarowinkler.svg
+    :target: https://pypi.python.org/pypi/pyjarowinkler/0.1.2
 
 Find the Jaro Winkler Distance which indicates the similarity score between two Strings.
 The Jaro measure is the weighted sum of percentage of matched characters from each file

@@ -1,17 +1,34 @@
 __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
+__version__ = '0.1.2'
 
+import os
+import sys
 from setuptools import setup, find_packages
+
+
+if sys.version_info[:2] < (2, 7):
+    raise RuntimeError('pyjarowinkler requires Python 2.7 minimum (untested on python 3)')
+
+
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup_info = {
     'name': 'pyjarowinkler',
-    'version': '0.1.0',
+    'version': __version__,
     'maintainer': __author__.split(' - ')[0],
     'maintainer_email': __author__.split(' - ')[1],
     'author': __author__.split(' - ')[0],
     'author_email': __author__.split(' - ')[1],
-    'url': 'http://{0}'.format(__author__.split('@')[1]),
+    'url': 'https://github.com/nap/jaro-winkler-distance',
+    'download_url': "https://github.com/nap/jaro-winkler-distance/archive/v{0}.zip".format(__version__),
+    'bugtrack_url': 'https://github.com/nap/jaro-winkler-distance/issues',
     'license': 'http://www.apache.org/licenses/',
+    'description': 'Find the Jaro Winkler Distance which indicates the similarity score between two Strings',
+    'platforms': ['Linux'],
+    'keywords': 'jaro winkler distance score string delta diff',
     'packages': find_packages(),
+    'long_description': read('README.rst'),
     'classifiers': [
         'Development Status :: 5 - Production/Stable',
         'Environment :: Other Environment',

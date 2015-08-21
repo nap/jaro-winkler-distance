@@ -1,6 +1,7 @@
-__author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
-import unittest
 from pyjarowinkler import distance
+import unittest
+
+__author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
 
 
 class TestDistance(unittest.TestCase):
@@ -11,7 +12,7 @@ class TestDistance(unittest.TestCase):
         self.assertEquals(float(0.91), distance.get_jaro_distance("ABC Corporation", "ABC Corp"))
         self.assertEquals(float(0.9), distance.get_jaro_distance("PENNSYLVANIA", "PENNCISYLVNIA"))
         self.assertEquals(float(0.93), distance.get_jaro_distance("D N H Enterprises Inc",
-                                                                 "D & H Enterprises, Inc."))
+                                                                  "D & H Enterprises, Inc."))
         self.assertEquals(float(0.94), distance.get_jaro_distance("My Gym Children's Fitness Center",
                                                                   "My Gym. Childrens Fitness"))
 

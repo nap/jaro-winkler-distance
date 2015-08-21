@@ -1,0 +1,19 @@
+language: python
+python:
+    - "2.7"
+notifications:
+    irc:
+        - "chat.freenode.net#unary"
+    email:
+        - "admin@unary.ca"
+env:
+    - PYTHONPATH=./
+install:
+    - pip install coveralls
+    - pip install pep8
+script:
+    - pep8 pyjarowinkler/* test/* --ignore E501
+    - py.test test/test_distance.py
+    - coverage run --source=pyjarowinkler test/test_distance.py
+after_success:
+    - coveralls

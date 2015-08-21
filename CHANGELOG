@@ -1,0 +1,19 @@
+0.1.2 (2015-08-04)
+    Modified python version check, will now raise an exception
+    Fix for PyPi parser error
+    Added support for py.test
+    Added travis ci build
+    Removed __init__.py from test dir
+    Added pep8 to travis ci
+    Reorg import to fix pep8
+
+0.1.1 (2015-08-02)
+    Fix for bad unittest
+    Changed MD for RST
+    Added changelog file
+    Update README
+    Enforce specific python version (<2.7)
+    Update setup.py
+
+0.1.0 (2015-07-31)
+    Initial project

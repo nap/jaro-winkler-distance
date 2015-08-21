@@ -12,7 +12,7 @@ __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
 """
 
 
-def get_jaro_distance(first, second):
+def get_jaro_distance(first, second, winkler_ajustment=True):
     if not first or not second:
         raise JaroDistanceException("Cannot calculate distance from NoneType ({0}, {1})".format(
             first.__class__.__name__,
@@ -21,7 +21,10 @@ def get_jaro_distance(first, second):
     jaro = _score(first, second)
     cl = min(len(_get_prefix(first, second)), 4)
 
-    return round((jaro + (0.1 * cl * (1.0 - jaro))) * 100.0) / 100.0
+    if winkler_ajustment:
+        return round((jaro + (0.1 * cl * (1.0 - jaro))) * 100.0) / 100.0
+
+    return jaro
 
 
 def _score(first, second):

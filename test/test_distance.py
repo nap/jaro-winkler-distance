@@ -86,13 +86,7 @@ class TestDistance(unittest.TestCase):
         self.assertEquals(distance._score("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.9073153899240856)
 
     def test_get_jaro_without_winkler(self):
-        self.assertEquals(distance.get_jaro_distance("", "",
-                                                     winkler_ajustment=False), 0.0)
-        self.assertEquals(distance.get_jaro_distance("", "a",
-                                                     winkler_ajustment=False), 0.0)
         self.assertEquals(distance.get_jaro_distance("ZDVSXA", "ZWEIUHFSAD",
-                                                     winkler_ajustment=False), 0.0)
-        self.assertEquals(distance.get_jaro_distance("aaapppp", "",
                                                      winkler_ajustment=False), 0.0)
         self.assertEquals(distance.get_jaro_distance("frog", "fog",
                                                      winkler_ajustment=False), 0.9166666666666666)

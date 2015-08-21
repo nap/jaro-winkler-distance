@@ -85,6 +85,38 @@ class TestDistance(unittest.TestCase):
                                           "My Gym. Childrens Fitness"), 0.9033333333333333)
         self.assertEquals(distance._score("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.9073153899240856)
 
+    def test_get_jaro_without_winkler(self):
+        self.assertEquals(distance.get_jaro_distance("", "",
+                                                     winkler_ajustment=False), 0.0)
+        self.assertEquals(distance.get_jaro_distance("", "a",
+                                                     winkler_ajustment=False), 0.0)
+        self.assertEquals(distance.get_jaro_distance("ZDVSXA", "ZWEIUHFSAD",
+                                                     winkler_ajustment=False), 0.0)
+        self.assertEquals(distance.get_jaro_distance("aaapppp", "",
+                                                     winkler_ajustment=False), 0.0)
+        self.assertEquals(distance.get_jaro_distance("frog", "fog",
+                                                     winkler_ajustment=False), 0.9166666666666666)
+        self.assertEquals(distance.get_jaro_distance("fly", "ant",
+                                                     winkler_ajustment=False), 0.0)
+        self.assertEquals(distance.get_jaro_distance("elephant", "hippo",
+                                                     winkler_ajustment=False), 0.44166666666666665)
+        self.assertEquals(distance.get_jaro_distance("hippo", "elephant",
+                                                     winkler_ajustment=False), 0.44166666666666665)
+        self.assertEquals(distance.get_jaro_distance("hippo", "zzzzzzzz",
+                                                     winkler_ajustment=False), 0.0)
+        self.assertEquals(distance.get_jaro_distance("hello", "hallo",
+                                                     winkler_ajustment=False), 0.8666666666666667)
+        self.assertEquals(distance.get_jaro_distance("ABC Corporation", "ABC Corp",
+                                                     winkler_ajustment=False), 0.8444444444444444)
+        self.assertEquals(distance.get_jaro_distance("PENNSYLVANIA", "PENNCISYLVNIA",
+                                                     winkler_ajustment=False), 0.8300310800310801)
+        self.assertEquals(distance.get_jaro_distance("My Gym Children's Fitness Center",
+                                                     "My Gym. Childrens Fitness",
+                                                     winkler_ajustment=False), 0.9033333333333333)
+        self.assertEquals(distance.get_jaro_distance("D N H Enterprises Inc",
+                                                     "D & H Enterprises, Inc.",
+                                                     winkler_ajustment=False), 0.9073153899240856)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -22,7 +22,6 @@ setup_info = {
     'author_email': __author__.split(' - ')[1],
     'url': 'https://github.com/nap/jaro-winkler-distance',
     'download_url': "https://github.com/nap/jaro-winkler-distance/archive/v{0}.zip".format(__version__),
-    'bugtrack_url': 'https://github.com/nap/jaro-winkler-distance/issues',
     'license': 'http://www.apache.org/licenses/',
     'description': 'Find the Jaro Winkler Distance which indicates the similarity score between two Strings',
     'platforms': ['Linux'],

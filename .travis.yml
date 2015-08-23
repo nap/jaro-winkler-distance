@@ -11,6 +11,7 @@ env:
 install:
     - pip install coveralls
     - pip install pep8
+    - pip install pyjarowinkler
 script:
     - pep8 pyjarowinkler/* test/* --ignore E501
     - py.test test/test_distance.py

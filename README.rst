@@ -8,7 +8,7 @@ Jaro Winkler Distance
 .. image:: https://img.shields.io/github/license/nap/jaro-winkler-distance.svg
     :target: https://raw.githubusercontent.com/nap/jaro-winkler-distance/master/LICENSE
 .. image:: https://img.shields.io/pypi/pyversions/pyjarowinkler.svg
-    :target: https://pypi.python.org/pypi/pyjarowinkler/0.1.2
+    :target: https://pypi.python.org/pypi/pyjarowinkler
 
 Find the Jaro Winkler Distance which indicates the similarity score between two Strings.
 The Jaro measure is the weighted sum of percentage of matched characters from each file

@@ -9,11 +9,9 @@ notifications:
 env:
     - PYTHONPATH=./
 install:
+    - pip install tox
     - pip install coveralls
-    - pip install pep8
 script:
-    - pep8 pyjarowinkler/* test/* --ignore E501
-    - py.test test/test_distance.py
-    - coverage run --source=pyjarowinkler test/test_distance.py
+    - python setup.py test
 after_success:
     - coveralls

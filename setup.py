@@ -4,6 +4,29 @@ __version__ = '0.1.3'
 import os
 import sys
 from setuptools import setup, find_packages
+from setuptools.command.test import test as TestCommand
+
+
+class Tox(TestCommand):
+    user_options = [('tox-args=', 'a', "Arguments to pass to tox")]
+
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.tox_args = None
+
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        import tox  # import here, cause outside the eggs aren't loaded
+        import shlex
+        args = self.tox_args
+        if args:
+            args = shlex.split(self.tox_args)
+        errno = tox.cmdline(args=args)
+        sys.exit(errno)
 
 
 if sys.version_info[:2] < (2, 7):
@@ -27,6 +50,8 @@ setup_info = {
     'platforms': ['Linux'],
     'keywords': 'jaro winkler distance score string delta diff',
     'packages': find_packages(),
+    'tests_require': ['tox'],
+    'cmdclass': {'test': Tox},
     'long_description': read('README.rst'),
     'classifiers': [
         'Development Status :: 5 - Production/Stable',

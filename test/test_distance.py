@@ -15,17 +15,9 @@ class TestDistance(unittest.TestCase):
                                                            "My Gym. Childrens Fitness"))
 
     def test_get_jaro_distance_raises(self):
-        with self.assertRaises(distance.JaroDistanceException) as e:
-            distance.get_jaro_distance(None, None)
-        self.assertTrue('NoneType, NoneType' in str(e.exception))
-
-        with self.assertRaises(distance.JaroDistanceException) as e:
-            distance.get_jaro_distance(" ", None)
-        self.assertTrue('str, NoneType' in str(e.exception))
-
-        with self.assertRaises(distance.JaroDistanceException) as e:
-            distance.get_jaro_distance(None, "")
-        self.assertTrue('NoneType, str' in str(e.exception))
+        self.assertRaises(distance.JaroDistanceException, distance.get_jaro_distance, None, None)
+        self.assertRaises(distance.JaroDistanceException, distance.get_jaro_distance, " ", None)
+        self.assertRaises(distance.JaroDistanceException, distance.get_jaro_distance, None, "")
 
     def test_transposition(self):
         self.assertEqual(distance._transpositions("", ""), 0)

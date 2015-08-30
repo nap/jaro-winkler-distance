@@ -1,3 +1,5 @@
+import math
+
 __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
 
 """ Find the Jaro Winkler Distance which indicates the similarity score between two Strings.
@@ -21,7 +23,7 @@ def get_jaro_distance(first, second, winkler_ajustment=True):
     jaro = _score(first, second)
     cl = min(len(_get_prefix(first, second)), 4)
 
-    if winkler_ajustment:
+    if winkler_ajustment:  # 0.1 as scaling factor
         return round((jaro + (0.1 * cl * (1.0 - jaro))) * 100.0) / 100.0
 
     return jaro
@@ -55,7 +57,7 @@ def _get_diff_index(first, second):
         return 0
 
     max_len = min(len(first), len(second))
-    for i in xrange(0, max_len):
+    for i in range(0, max_len):
         if not first[i] == second[i]:
             return i
 
@@ -79,10 +81,11 @@ def _get_prefix(first, second):
 
 def _get_matching_characters(first, second):
     common = []
-    limit = 1 + (min(len(first), len(second)) / 2)
+    limit = math.floor(1 + (min(len(first), len(second)) / 2))
 
     for i, l in enumerate(first):
-        if l in second[max(0, i - limit):min(i + limit, len(second))]:
+        left, right = int(max(0, i - limit)), int(min(i + limit, len(second)))
+        if l in second[left:right]:
             common.append(l)
             second = second[0:second.index(l)] + '*' + second[second.index(l) + 1:]
 
@@ -90,8 +93,9 @@ def _get_matching_characters(first, second):
 
 
 def _transpositions(first, second):
-    return len([(f, s) for f, s in zip(first, second) if not f == s]) / 2
+    return math.floor(len([(f, s) for f, s in zip(first, second) if not f == s]) / 2.0)
 
 
 class JaroDistanceException(Exception):
-    pass
+    def __init__(self, message):
+            super(Exception, self).__init__(message)

@@ -29,8 +29,8 @@ class Tox(TestCommand):
         sys.exit(errno)
 
 
-if sys.version_info[:2] < (2, 7):
-    raise RuntimeError('pyjarowinkler requires Python 2.7 minimum (untested on python 3)')
+if sys.version_info[:2] < (2, 6):
+    raise RuntimeError('pyjarowinkler requires Python 2.6 minimum')
 
 
 def read(fname):
@@ -59,7 +59,9 @@ setup_info = {
         'Intended Audience :: Other Audience',
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: Unix',
+        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.4',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ]
 }

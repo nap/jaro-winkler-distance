@@ -34,4 +34,4 @@ Example
     >>> print distance.get_jaro_distance("hello", "haloa", winkler_ajustment=False)
     0.733333333333
 
-:Version: 1.5keubase of 2015-09-06
+:Version: 1.4 of 2015-08-30

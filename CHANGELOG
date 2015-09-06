@@ -1,3 +1,12 @@
+v1.5keubase (2015-09-06)
+    350b37e update bad filename
+    52a2248 update release script with automatic changelog update
+    89b0fc6 update changelog with new format
+    8f10096 added useless output
+    9663294 added version and identity parameter with some debug
+    08fd0c2 added usage output
+    f3fd289 fix typo and update debug
+    3fa9bff added script to push new version
 v1.4 (2015-08-30)
     2f3107b update to work with py26
     5da90dd update for py26 and py34

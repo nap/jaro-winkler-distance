@@ -2,7 +2,7 @@
 
 VERSION=$1
 if [[ -z "$VERSION" ]]; then
-	echo "First parameter is empty, set version number"
+	echo "Usage: $(basename $0) [version]"
 	echo "Current version is set to: $(sed -n "s/__version__ = '\(.*\)'/\1/p" setup.py)"
 	exit 1
 fi

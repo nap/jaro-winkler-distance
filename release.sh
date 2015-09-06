@@ -33,7 +33,7 @@ cat $CHANGELOG > CHANGELOG
 sed -i '' "s/__version__ = '.*'/__version__ = '$VERSION'/" setup.py
 sed -i '' "s/:Version: .*/:Version: $VERSION of $DATE/" README.rst
 
-git add README.rst setup.sh CHANGELOG
+git add README.rst setup.py CHANGELOG
 git commit -m "version bump and changelog update"
 git push
 

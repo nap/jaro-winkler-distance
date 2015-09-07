@@ -41,4 +41,5 @@ rm -Rf dist/*
 git tag -a v$VERSION -m "pypi version $VERSION"
 git push origin v$VERSION
 python2.7 setup.py sdist bdist_wheel --universal
-twine upload dist/* --sign --identity E80E2315
+twine upload dist/* --sign --identity $IDENTITY
+

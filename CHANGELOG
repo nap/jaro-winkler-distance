@@ -1,3 +1,5 @@
+v1.6 (2015-09-06)
+    59b93e5 added information __all__
 v1.5 (2015-09-06)
     264160c remove merge messages from CHANGELOG
     97d790a ignore DS_Store

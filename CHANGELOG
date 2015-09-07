@@ -25,7 +25,6 @@ v1.4 (2015-08-30)
     91d57b8 update travis with TOX deps and run test through setup.py
     b08600a fix bad link
     84214dd removed last edit
-    8e726b5 Merge branch 'master' of github.com:nap/jaro-winkler-distance
     5cad2fa took faulty package out of virtenv
     ab9f89f removed unknown attribute
     2d134d8 update example

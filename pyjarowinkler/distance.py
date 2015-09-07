@@ -1,5 +1,6 @@
 import math
 
+__all__ = ['get_jaro_distance']
 __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
 
 """ Find the Jaro Winkler Distance which indicates the similarity score between two Strings.

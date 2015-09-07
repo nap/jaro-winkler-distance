@@ -24,7 +24,7 @@ fi
 DATE=$(date +%Y-%m-%d)
 CHANGELOG=$(mktemp -t tmp)
 echo "v$VERSION (${DATE})" > $CHANGELOG
-echo "$(git log v${CURRENT_VERSION}..HEAD --oneline | egrep -v "bump|pypi|pep8")" | while read LINE; do
+echo "$(git log v${CURRENT_VERSION}..HEAD --oneline | egrep -v "bump|pypi|pep8|Merge")" | while read LINE; do
 	echo -e "    $LINE" >> $CHANGELOG
 done
 cat CHANGELOG >> $CHANGELOG

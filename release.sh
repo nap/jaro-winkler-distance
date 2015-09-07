@@ -6,11 +6,11 @@ if ! git diff-index --quiet HEAD; then
 fi
 
 if echo "$@" | grep -q -- '--version'; then
-	VERSION="$(echo "$@" | grep -oh -- '--version=.*' | cut -d '=' -f 2)"
+	VERSION=$(echo "$@" | grep -oh -- '--version=.*' | cut -d '=' -f 2 | cut -d ' ' -f 1)
 fi
 
 if echo "$@" | grep -q -- '--identity'; then
-	IDENTITY="$(echo "$@" | grep -oh -- '--identity=.*' | cut -d '=' -f 2)"
+	IDENTITY=$(echo "$@" | grep -oh -- '--identity=.*' | cut -d '=' -f 2 | cut -d ' ' -f 1)
 fi
 [[ -z "$IDENTITY" ]] && IDENTITY=E80E2315
 

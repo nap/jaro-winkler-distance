@@ -29,7 +29,8 @@ Example
 ::
 
     >>> from pyjarowinkler import distance
-    >>> print distance.get_jaro_distance("hello", "haloa", winkler=True, scaling=0.1)  # Scaling is 0.1 by default
+    >>> # Scaling is 0.1 by default
+    >>> print distance.get_jaro_distance("hello", "haloa", winkler=True, scaling=0.1)
     0.76
     >>> print distance.get_jaro_distance("hello", "haloa", winkler=False, scaling=0.1)
     0.733333333333

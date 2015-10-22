@@ -15,7 +15,15 @@ __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
 """
 
 
-def get_jaro_distance(first, second, winkler_ajustment=True):
+def get_jaro_distance(first, second, winkler=True, winkler_ajustment=True, scaling=0.1):
+    """
+    :param first: word to calculate distance for
+    :param second: word to calculate distance with
+    :param winkler: same as winkler_ajustment
+    :param winkler_ajustment: add an adjustment factor to the Jaro of the distance
+    :param scaling: scaling factor for the Winkler adjustment
+    :return: Jaro distance adjusted (or not)
+    """
     if not first or not second:
         raise JaroDistanceException("Cannot calculate distance from NoneType ({0}, {1})".format(
             first.__class__.__name__,
@@ -24,8 +32,8 @@ def get_jaro_distance(first, second, winkler_ajustment=True):
     jaro = _score(first, second)
     cl = min(len(_get_prefix(first, second)), 4)
 
-    if winkler_ajustment:  # 0.1 as scaling factor
-        return round((jaro + (0.1 * cl * (1.0 - jaro))) * 100.0) / 100.0
+    if all([winkler, winkler_ajustment]):  # 0.1 as scaling factor
+        return round((jaro + (scaling * cl * (1.0 - jaro))) * 100.0) / 100.0
 
     return jaro
 

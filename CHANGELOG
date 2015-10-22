@@ -1,3 +1,7 @@
+v1.7 (2015-10-21)
+    1659545 fix for typo ensuring backward compatibility
+    f81227a fix argparse
+    003eed8 adde forgotten variable for identity
 v1.6 (2015-09-06)
     59b93e5 added information __all__
 v1.5 (2015-09-06)

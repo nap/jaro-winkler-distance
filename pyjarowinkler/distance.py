@@ -93,7 +93,7 @@ def _get_matching_characters(first, second):
     limit = math.floor(1 + (min(len(first), len(second)) / 2))
 
     for i, l in enumerate(first):
-        left, right = int(max(0, i - limit)), int(min(i + limit, len(second)))
+        left, right = int(max(0, i - limit)), int(min(i + limit + 1, len(second)))
         if l in second[left:right]:
             common.append(l)
             second = second[0:second.index(l)] + '*' + second[second.index(l) + 1:]

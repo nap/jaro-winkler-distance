@@ -90,7 +90,7 @@ def _get_prefix(first, second):
 
 def _get_matching_characters(first, second):
     common = []
-    limit = math.floor(1 + (min(len(first), len(second)) / 2))
+    limit = math.floor(max(len(first), len(second)) / 2)
 
     for i, l in enumerate(first):
         left, right = int(max(0, i - limit)), int(min(i + limit + 1, len(second)))

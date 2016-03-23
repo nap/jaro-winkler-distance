@@ -23,6 +23,11 @@ Correctness
 -----------
 Unittest similar to what you will find in the ``StringUtils`` library were used to validate implementation.
 
+Note
+----
+A limit of ``shorter / 2 + 1`` is used in StringUtils, this differs from Wikipedia and also `Winkler's paper <http://www.amstat.org/sections/srms/Proceedings/papers/1990_056.pdf>`_, where a distance of ``longer / 2 - 1`` is used, corresponding to positions of ``longer / 2`` as in the changed code.
+As of ``1.8``, the changed code now correctly works with the "CTRATE" - "TRACE" example from Wikipedia.
+
 Example
 -------
 

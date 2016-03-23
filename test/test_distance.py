@@ -61,7 +61,7 @@ class TestDistance(unittest.TestCase):
     def test_score(self):
         self.assertEquals(distance._score("", ""), 0.0)
         self.assertEquals(distance._score("", "a"), 0.0)
-        self.assertEquals(distance._score("ZDVSXA", "ZWEIUHFSAD"), 0.0)
+        self.assertEquals(distance._score("ZDVSXA", "ZWEIUHFSAD"), 0.5111111111111111)
         self.assertEquals(distance._score("aaapppp", ""), 0.0)
         self.assertEquals(distance._score("fly", "ant"), 0.0)
         self.assertEquals(distance._score("elephant", "hippo"), 0.44166666666666665)
@@ -76,7 +76,7 @@ class TestDistance(unittest.TestCase):
 
     def test_get_jaro_without_winkler(self):
         self.assertEquals(distance.get_jaro_distance("ZDVSXA", "ZWEIUHFSAD",
-                                                     winkler_ajustment=False), 0.0)
+                                                     winkler_ajustment=False), 0.5111111111111111)
         self.assertEquals(distance.get_jaro_distance("frog", "fog",
                                                      winkler_ajustment=False), 0.9166666666666666)
         self.assertEquals(distance.get_jaro_distance("fly", "ant",

@@ -50,9 +50,6 @@ def _score(first, second):
     if len(m1) == 0 or len(m2) == 0:
         return 0.0
 
-    if not len(m1) == len(m2):
-        return 0.0
-
     return (float(len(m1)) / len(shorter) +
             float(len(m2)) / len(longer) +
             float(len(m1) - _transpositions(m1, m2)) / len(m1)) / 3.0

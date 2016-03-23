@@ -40,4 +40,4 @@ Example
     >>> print distance.get_jaro_distance("hello", "haloa", winkler=False, scaling=0.1)
     0.733333333333
 
-:Version: 1.7 of 2015-10-21
+:Version: 1.8 of 2016-03-22

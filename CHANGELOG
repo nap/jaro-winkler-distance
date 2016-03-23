@@ -1,3 +1,16 @@
+v1.8 (2016-03-22)
+    65da039 Fix README parsing
+    93de94a Update for new release with details of change in implementation
+    b3e4be8 Added 'CONTRIBUTOR' file
+    906dd09 Updated test to reflect changes
+    8b1b819 Removed code that is no longer reachable
+    332e5b1 Added enhancement suggested by @hellrich
+    931ab9c Revert "Fix in _get_matching_characters"
+    e0e7b64 Update tox.ini
+    8b24dfd fixed _get_matching_characters
+    d03966a Fix in _get_matching_characters
+    e70dfea update example with better formatting
+    20bda9a update example
 v1.7 (2015-10-21)
     1659545 fix for typo ensuring backward compatibility
     f81227a fix argparse

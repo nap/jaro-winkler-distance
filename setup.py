@@ -36,6 +36,7 @@ if sys.version_info[:2] < (2, 6):
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+
 setup_info = {
     'name': 'pyjarowinkler',
     'version': __version__,

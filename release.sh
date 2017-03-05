@@ -12,7 +12,7 @@ fi
 if echo "$@" | grep -q -- '--identity'; then
 	IDENTITY=$(echo "$@" | grep -oh -- '--identity=.*' | cut -d '=' -f 2 | cut -d ' ' -f 1)
 fi
-[[ -z "$IDENTITY" ]] && IDENTITY=E80E2315
+[[ -z "$IDENTITY" ]] && IDENTITY=994A80D2
 
 CURRENT_VERSION=$(sed -n "s/__version__ = '\(.*\)'/\1/p" setup.py)
 if [[ -z "$VERSION" ]]; then

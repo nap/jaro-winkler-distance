@@ -5,7 +5,8 @@ import os
 import sys
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
-
+from distutils.core import setup
+from Cython.Build import cythonize
 
 class Tox(TestCommand):
     user_options = [('tox-args=', 'a', "Arguments to pass to tox")]
@@ -66,4 +67,4 @@ setup_info = {
         'Topic :: Software Development :: Libraries :: Python Modules'
     ]
 }
-setup(**setup_info)
+setup(**setup_info, ext_modules=cythonize("pyjarowinkler/distancec.pyx", language_level = "3"))

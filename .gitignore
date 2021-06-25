@@ -7,3 +7,4 @@ dist/
 .tox/
 .DS_Store
 .cache
+*.pyd

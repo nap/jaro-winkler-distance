@@ -28,8 +28,8 @@ cpdef float get_jaro_distance(str first, str second, bint winkler=True, bint win
 
     return jaro
 
-cpdef list get_jaro_distance_array(str string, list stringList, bint winkler=True, bint winkler_ajustment=True, float scaling=0.1):
-    cdef list jaro = [get_jaro_distance(string, i, winkler, winkler_ajustment, scaling) for i in stringList]
+cpdef list get_jaro_distance_array(str first, list second, bint winkler=True, bint winkler_ajustment=True, float scaling=0.1):
+    cdef list jaro = [get_jaro_distance(first, i, winkler, winkler_ajustment, scaling) for i in second]
     return jaro
 
 cdef float _score(first, second):

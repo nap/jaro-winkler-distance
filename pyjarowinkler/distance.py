@@ -38,15 +38,17 @@ def get_jaro_distance(first, second, winkler=True, winkler_ajustment=True, scali
     return jaro
 
 
-def get_jaro_distance_array(string, array, winkler=True, winkler_ajustment=True, scaling=0.1):
+def get_jaro_distance_array(first, second, winkler=True, winkler_ajustment=True, scaling=0.1):
     """
-    :param string: word to calculate distance for
-    :param array: list of words to calculate the distance with
+    :param first: word to calculate distance for
+    :param second: list of words to calculate the distance with
     :param winkler: same as winkler_ajustment
     :param winkler_ajustment: add an adjustment factor to the Jaro of the distance
     :param scaling: scaling factor for the Winkler adjustment
     :return: list of Jaro distances adjusted (or not)
     """
+    if not instanceof(second, list):
+        second = [second]
     return [get_jaro_distance(string, i, winkler, winkler_ajustment, scaling) for i in array]
 
 

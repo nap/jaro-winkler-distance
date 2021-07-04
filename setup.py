@@ -67,4 +67,4 @@ setup_info = {
         'Topic :: Software Development :: Libraries :: Python Modules'
     ]
 }
-setup(**setup_info, ext_modules=cythonize("pyjarowinkler/distancec.pyx", language_level = "3"))
+setup(ext_modules=cythonize(os.path.join("pyjarowinkler", "distancec.pyx"), language_level = "3"), **setup_info)

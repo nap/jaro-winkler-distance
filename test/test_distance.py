@@ -1,4 +1,4 @@
-from pyjarowinkler import distance
+from pyjarowinkler import distance, distancec
 import unittest
 
 __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'

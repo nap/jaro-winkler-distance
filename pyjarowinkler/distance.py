@@ -47,7 +47,7 @@ def get_jaro_distance_array(first, second, winkler=True, winkler_ajustment=True,
     :param scaling: scaling factor for the Winkler adjustment
     :return: list of Jaro distances adjusted (or not)
     """
-    if not instanceof(second, list):
+    if not isinstance(second, list):
         second = [second]
     return [get_jaro_distance(first, i, winkler, winkler_ajustment, scaling) for i in second]
 

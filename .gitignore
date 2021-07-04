@@ -11,3 +11,5 @@ dist/
 *.c
 *.so
 __pycache__/
+*.avx2
+*.avx512

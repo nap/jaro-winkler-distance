@@ -3,10 +3,10 @@ __version__ = '1.8'
 
 import os
 import sys
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 from setuptools.command.test import test as TestCommand
-from distutils.core import setup
-from Cython.Build import cythonize
+from Cython.Build import cythonize, build_ext
+from distutils.extension import Extension
 
 class Tox(TestCommand):
     user_options = [('tox-args=', 'a', "Arguments to pass to tox")]
@@ -37,6 +37,9 @@ if sys.version_info[:2] < (2, 6):
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+ext_modules=[
+    Extension("cydistance", [os.path.join("pyjarowinkler", "cydistance.pyx")])
+]
 
 setup_info = {
     'name': 'pyjarowinkler',
@@ -55,6 +58,8 @@ setup_info = {
     'tests_require': ['tox'],
     'cmdclass': {'test': Tox},
     'long_description': read('README.rst'),
+    'cmdclass': {'build_ext': build_ext},
+    'ext_modules': ext_modules,
     'classifiers': [
         'Development Status :: 5 - Production/Stable',
         'Environment :: Other Environment',
@@ -63,8 +68,8 @@ setup_info = {
         'Operating System :: Unix',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ]
 }
-setup(ext_modules=cythonize(os.path.join("pyjarowinkler", "distancec.pyx"), language_level = "3"), **setup_info)
+setup(**setup_info)

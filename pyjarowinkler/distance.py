@@ -37,7 +37,8 @@ def get_jaro_distance(first, second, winkler=True, winkler_ajustment=True, scali
 
     return jaro
 
-def get_jaro_distance_array(string, array, winkler = True, winkler_ajustment = True, scaling = 0.1):
+
+def get_jaro_distance_array(string, array, winkler=True, winkler_ajustment=True, scaling=0.1):
     """
     :param string: word to calculate distance for
     :param array: list of words to calculate the distance with
@@ -47,7 +48,7 @@ def get_jaro_distance_array(string, array, winkler = True, winkler_ajustment = T
     :return: list of Jaro distances adjusted (or not)
     """
     return [get_jaro_distance(string, i, winkler, winkler_ajustment, scaling) for i in array]
-    
+
 
 def _score(first, second):
     shorter, longer = first.lower(), second.lower()
@@ -115,4 +116,4 @@ def _transpositions(first, second):
 
 class JaroDistanceException(Exception):
     def __init__(self, message):
-            super(Exception, self).__init__(message)
+        super(Exception, self).__init__(message)

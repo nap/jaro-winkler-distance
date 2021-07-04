@@ -1,4 +1,5 @@
-from pyjarowinkler import distance, distancec
+from pyjarowinkler import distance
+from pyjarowinkler import cydistance
 import unittest
 
 __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
@@ -13,6 +14,14 @@ class TestDistance(unittest.TestCase):
         self.assertEquals(0.93, distance.get_jaro_distance("D N H Enterprises Inc", "D & H Enterprises, Inc."))
         self.assertEquals(0.94, distance.get_jaro_distance("My Gym Children's Fitness Center",
                                                            "My Gym. Childrens Fitness"))
+
+    def test_get_jaro_cydistance(self):
+        self.assertEquals(0.0, cydistance.get_jaro_distance("fly", "ant"))
+        self.assertEquals(0.44, cydistance.get_jaro_distance("elephant", "hippo"))
+        self.assertEquals(0.91, cydistance.get_jaro_distance("ABC Corporation", "ABC Corp"))
+        self.assertEquals(0.9, cydistance.get_jaro_distance("PENNSYLVANIA", "PENNCISYLVNIA"))
+        self.assertEquals(0.93, cydistance.get_jaro_distance("D N H Enterprises Inc", "D & H Enterprises, Inc."))
+        self.assertEquals(0.94, cydistance.get_jaro_distance("My Gym Children's Fitness Center",
 
     def test_get_jaro_distance_raises(self):
         self.assertRaises(distance.JaroDistanceException, distance.get_jaro_distance, None, None)
@@ -100,6 +109,31 @@ class TestDistance(unittest.TestCase):
                                                      "D & H Enterprises, Inc.",
                                                      winkler_ajustment=False), 0.9073153899240856)
 
+    def test_get_jaro_without_winkler_cy(self):
+        self.assertEquals(cydistance.get_jaro_distance("ZDVSXA", "ZWEIUHFSAD",
+                                                     winkler_ajustment=False), 0.5111111111111111)
+        self.assertEquals(cydistance.get_jaro_distance("frog", "fog",
+                                                     winkler_ajustment=False), 0.9166666666666666)
+        self.assertEquals(cydistance.get_jaro_distance("fly", "ant",
+                                                     winkler_ajustment=False), 0.0)
+        self.assertEquals(cydistance.get_jaro_distance("elephant", "hippo",
+                                                     winkler_ajustment=False), 0.44166666666666665)
+        self.assertEquals(cydistance.get_jaro_distance("hippo", "elephant",
+                                                     winkler_ajustment=False), 0.44166666666666665)
+        self.assertEquals(cydistance.get_jaro_distance("hippo", "zzzzzzzz",
+                                                     winkler_ajustment=False), 0.0)
+        self.assertEquals(cydistance.get_jaro_distance("hello", "hallo",
+                                                     winkler_ajustment=False), 0.8666666666666667)
+        self.assertEquals(cydistance.get_jaro_distance("ABC Corporation", "ABC Corp",
+                                                     winkler_ajustment=False), 0.8444444444444444)
+        self.assertEquals(cydistance.get_jaro_distance("PENNSYLVANIA", "PENNCISYLVNIA",
+                                                     winkler_ajustment=False), 0.8300310800310801)
+        self.assertEquals(cydistance.get_jaro_distance("My Gym Children's Fitness Center",
+                                                     "My Gym. Childrens Fitness",
+                                                     winkler_ajustment=False), 0.9033333333333333)
+        self.assertEquals(cydistance.get_jaro_distance("D N H Enterprises Inc",
+                                                     "D & H Enterprises, Inc.",
+                                                     winkler_ajustment=False), 0.9073153899240856)
 
 if __name__ == '__main__':
     unittest.main()

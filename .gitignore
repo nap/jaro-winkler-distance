@@ -8,3 +8,6 @@ dist/
 .DS_Store
 .cache
 *.pyd
+*.c
+*.so
+__pycache__/

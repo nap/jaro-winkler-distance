@@ -7,3 +7,9 @@ dist/
 .tox/
 .DS_Store
 .cache
+*.pyd
+*.c
+*.so
+__pycache__/
+*.avx2
+*.avx512

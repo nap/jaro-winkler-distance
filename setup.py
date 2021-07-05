@@ -3,8 +3,10 @@ __version__ = '1.8'
 
 import os
 import sys
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 from setuptools.command.test import test as TestCommand
+from Cython.Build import build_ext
+from distutils.extension import Extension
 
 
 class Tox(TestCommand):
@@ -37,6 +39,11 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
+ext_modules = [
+    Extension("pyjarowinkler.cydistance", [os.path.join("pyjarowinkler", "cydistance.pyx")])
+]
+
+
 setup_info = {
     'name': 'pyjarowinkler',
     'version': __version__,
@@ -52,8 +59,9 @@ setup_info = {
     'keywords': 'jaro winkler distance score string delta diff',
     'packages': find_packages(),
     'tests_require': ['tox'],
-    'cmdclass': {'test': Tox},
+    'cmdclass': {'test': Tox, 'build_ext': build_ext},
     'long_description': read('README.rst'),
+    'ext_modules': ext_modules,
     'classifiers': [
         'Development Status :: 5 - Production/Stable',
         'Environment :: Other Environment',
@@ -62,7 +70,7 @@ setup_info = {
         'Operating System :: Unix',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ]
 }

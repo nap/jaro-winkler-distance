@@ -28,8 +28,10 @@ Note
 A limit of ``shorter / 2 + 1`` is used in StringUtils, this differs from Wikipedia and also `Winkler's paper <http://www.amstat.org/sections/srms/Proceedings/papers/1990_056.pdf>`_, where a distance of ``longer / 2 - 1`` is used, corresponding to positions of ``longer / 2``.
 As of ``version 1.8``, the changed code now correctly works with the ``"CTRATE" - "TRACE"`` example from Wikipedia.
 
-Example
--------
+Examples
+--------
+
+* Single word comparison
 
 ::
 
@@ -40,4 +42,39 @@ Example
     >>> print distance.get_jaro_distance("hello", "haloa", winkler=False, scaling=0.1)
     0.733333333333
 
-:Version: 1.8 of 2016-03-22
+* Word to list of words comparison
+
+::
+    
+    >>> from pyjarowinkler import distance
+    >>> print(distance.get_jaro_distance_array("hello", ["hello", "haloa"]))
+    [1.0, 0.76]
+    >>> print(distance.get_jaro_distance_array("hello", ["hello", "haloa"], winkler=False))
+    [1.0, 0.7333333333333334]
+
+A Cython implementation is available for Python3
+
+* Replacing distance with cydistance in the example above
+
+::
+ 
+    >>> from pyjarowinkler import cydistance
+    >>> print(cydistance.get_jaro_distance_array("hello", ["hello", "haloa"]))
+    [1.0, 0.7599999904632568]
+    >>> print(cydistance.get_jaro_distance_array("hello", ["hello", "haloa"], winkler=False))
+    [1.0, 0.7333333492279053]
+
+Cython results are faster, but values diverge a little bit from the pure Python implementation
+
+::
+ 
+    >>> import timeit
+    >>> print(timeit.timeit('from pyjarowinkler import cydistance; cydistance.get_jaro_distance_array("test", ["tes","yesy3","test"]);', number=100000))
+    3.075742277000245
+    >>> print(timeit.timeit('from pyjarowinkler import distance; distance.get_jaro_distance_array("test", ["tes","yesy3","test"]);', number=100000))
+    8.905812201002846
+    >>> print(timeit.timeit('from pyjarowinkler import cydistance; cydistance.get_jaro_distance("test", "tes");', number=100000))
+    1.8690481420017022
+    >>> print(timeit.timeit('from pyjarowinkler import distance; distance.get_jaro_distance("test", "tes");', number=100000))
+    1.84414828700028
+:Version: 1.8 of 2016-03-22a

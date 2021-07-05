@@ -38,6 +38,20 @@ def get_jaro_distance(first, second, winkler=True, winkler_ajustment=True, scali
     return jaro
 
 
+def get_jaro_distance_array(first, second, winkler=True, winkler_ajustment=True, scaling=0.1):
+    """
+    :param first: word to calculate distance for
+    :param second: list of words to calculate the distance with
+    :param winkler: same as winkler_ajustment
+    :param winkler_ajustment: add an adjustment factor to the Jaro of the distance
+    :param scaling: scaling factor for the Winkler adjustment
+    :return: list of Jaro distances adjusted (or not)
+    """
+    if not isinstance(second, list):
+        second = [second]
+    return [get_jaro_distance(first, i, winkler, winkler_ajustment, scaling) for i in second]
+
+
 def _score(first, second):
     shorter, longer = first.lower(), second.lower()
 
@@ -50,9 +64,9 @@ def _score(first, second):
     if len(m1) == 0 or len(m2) == 0:
         return 0.0
 
-    return (float(len(m1)) / len(shorter) +
-            float(len(m2)) / len(longer) +
-            float(len(m1) - _transpositions(m1, m2)) / len(m1)) / 3.0
+    return ((float(len(m1)) / len(shorter) + float(len(m2))
+            / len(longer) + float(len(m1) - _transpositions(m1, m2))
+            / len(m1)) / 3.0)
 
 
 def _get_diff_index(first, second):
@@ -104,4 +118,4 @@ def _transpositions(first, second):
 
 class JaroDistanceException(Exception):
     def __init__(self, message):
-            super(Exception, self).__init__(message)
+        super(Exception, self).__init__(message)

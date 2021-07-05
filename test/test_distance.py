@@ -19,14 +19,14 @@ class TestDistance(unittest.TestCase):
 
     def test_get_jaro_cydistance(self):
         if sys.version_info[:2] > (2, 7):
-            self.assertEqual(0.0, round(cydistance.get_jaro_distance("fly", "ant"), 3))
-            self.assertEqual(0.44, round(cydistance.get_jaro_distance("elephant", "hippo"), 3))
-            self.assertEqual(0.91, round(cydistance.get_jaro_distance("ABC Corporation", "ABC Corp"), 3))
-            self.assertEqual(0.9, round(cydistance.get_jaro_distance("PENNSYLVANIA", "PENNCISYLVNIA"), 3))
-            self.assertEqual(0.93, round(cydistance.get_jaro_distance("D N H Enterprises Inc",
-                                                                      "D & H Enterprises, Inc."), 3))
-            self.assertEqual(0.94, round(cydistance.get_jaro_distance("My Gym Children's Fitness Center",
-                                                                      "My Gym. Childrens Fitness"), 3))
+            self.assertEqual(0.0, distance.get_jaro_distance("fly", "ant"))
+            self.assertEqual(0.44, distance.get_jaro_distance("elephant", "hippo"))
+            self.assertEqual(0.91, distance.get_jaro_distance("ABC Corporation", "ABC Corp"))
+            self.assertEqual(0.9, distance.get_jaro_distance("PENNSYLVANIA", "PENNCISYLVNIA"))
+            self.assertEqual(0.93, distance.get_jaro_distance("D N H Enterprises Inc",
+                                                              "D & H Enterprises, Inc."))
+            self.assertEqual(0.94, distance.get_jaro_distance("My Gym Children's Fitness Center",
+                                                              "My Gym. Childrens Fitness"))
 
     def test_get_jaro_distance_raises(self):
         self.assertRaises(distance.JaroDistanceException, distance.get_jaro_distance, None, None)
@@ -116,41 +116,30 @@ class TestDistance(unittest.TestCase):
 
     def test_get_jaro_without_winkler_cy(self):
         if sys.version_info[:2] > (2, 7):
-            self.assertEqual(round(cydistance.get_jaro_distance("ZDVSXA", "ZWEIUHFSAD",
-                                                                winkler_ajustment=False), 3),
-                             round(0.5111111402511597, 3))
-            self.assertEqual(round(cydistance.get_jaro_distance("frog", "fog",
-                                                                winkler_ajustment=False), 3),
-                             round(0.9166666666666666, 3))
-            self.assertEqual(round(cydistance.get_jaro_distance("fly", "ant",
-                                                                winkler_ajustment=False), 3),
-                             round(0.0, 3))
-            self.assertEqual(round(cydistance.get_jaro_distance("elephant", "hippo",
-                                                                winkler_ajustment=False), 3),
-                             round(0.44166666666666665, 3))
-            self.assertEqual(round(cydistance.get_jaro_distance("hippo", "elephant",
-                                                                winkler_ajustment=False), 3),
-                             round(0.44166666666666665, 3))
-            self.assertEqual(round(cydistance.get_jaro_distance("hippo", "zzzzzzzz",
-                                                                winkler_ajustment=False), 3),
-                             round(0.0, 3))
-            self.assertEqual(round(cydistance.get_jaro_distance("hello", "hallo",
-                                                                winkler_ajustment=False), 3),
-                             round(0.8666666666666667, 3))
-            self.assertEqual(round(cydistance.get_jaro_distance("ABC Corporation", "ABC Corp",
-                                                                winkler_ajustment=False), 3),
-                             round(0.8444444444444444, 3))
-            self.assertEqual(round(cydistance.get_jaro_distance("PENNSYLVANIA", "PENNCISYLVNIA",
-                                                                winkler_ajustment=False), 3),
-                             round(0.8300310800310801, 3))
-            self.assertEqual(round(cydistance.get_jaro_distance("My Gym Children's Fitness Center",
-                                                                "My Gym. Childrens Fitness",
-                                                                winkler_ajustment=False), 3),
-                             round(0.9033333333333333, 3))
-            self.assertEqual(round(cydistance.get_jaro_distance("D N H Enterprises Inc",
-                                                                "D & H Enterprises, Inc.",
-                                                                winkler_ajustment=False), 3),
-                             round(0.9073153899240856, 3))
+            self.assertEqual(distance.get_jaro_distance("ZDVSXA", "ZWEIUHFSAD",
+                                                        winkler_ajustment=False), 0.5111111111111111)
+            self.assertEqual(distance.get_jaro_distance("frog", "fog",
+                                                        winkler_ajustment=False), 0.9166666666666666)
+            self.assertEqual(distance.get_jaro_distance("fly", "ant",
+                                                        winkler_ajustment=False), 0.0)
+            self.assertEqual(distance.get_jaro_distance("elephant", "hippo",
+                                                        winkler_ajustment=False), 0.44166666666666665)
+            self.assertEqual(distance.get_jaro_distance("hippo", "elephant",
+                                                        winkler_ajustment=False), 0.44166666666666665)
+            self.assertEqual(distance.get_jaro_distance("hippo", "zzzzzzzz",
+                                                        winkler_ajustment=False), 0.0)
+            self.assertEqual(distance.get_jaro_distance("hello", "hallo",
+                                                        winkler_ajustment=False), 0.8666666666666667)
+            self.assertEqual(distance.get_jaro_distance("ABC Corporation", "ABC Corp",
+                                                        winkler_ajustment=False), 0.8444444444444444)
+            self.assertEqual(distance.get_jaro_distance("PENNSYLVANIA", "PENNCISYLVNIA",
+                                                        winkler_ajustment=False), 0.8300310800310801)
+            self.assertEqual(distance.get_jaro_distance("My Gym Children's Fitness Center",
+                                                        "My Gym. Childrens Fitness",
+                                                        winkler_ajustment=False), 0.9033333333333333)
+            self.assertEqual(distance.get_jaro_distance("D N H Enterprises Inc",
+                                                        "D & H Enterprises, Inc.",
+                                                        winkler_ajustment=False), 0.9073153899240856)
 
 
 if __name__ == '__main__':

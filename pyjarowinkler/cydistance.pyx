@@ -19,8 +19,8 @@ __author__ = 'Jean-Bernard Ratte - jean.bernard.ratte@unary.ca'
 """
 
 
-cpdef float get_jaro_distance(str first, str second, bint winkler=True, bint winkler_ajustment=True, float scaling=0.1):
-    cdef float jaro = _score(first, second)
+cpdef double get_jaro_distance(str first, str second, bint winkler=True, bint winkler_ajustment=True, double scaling=0.1):
+    cdef double jaro = _score(first, second)
     cdef int cl = min(len(_get_prefix(first, second)), 4)
 
     if all([winkler, winkler_ajustment]):  # 0.1 as scaling factor
@@ -28,11 +28,11 @@ cpdef float get_jaro_distance(str first, str second, bint winkler=True, bint win
 
     return jaro
 
-cpdef list get_jaro_distance_array(str first, list second, bint winkler=True, bint winkler_ajustment=True, float scaling=0.1):
+cpdef list get_jaro_distance_array(str first, list second, bint winkler=True, bint winkler_ajustment=True, double scaling=0.1):
     cdef list jaro = [get_jaro_distance(first, i, winkler, winkler_ajustment, scaling) for i in second]
     return jaro
 
-cdef float _score(first, second):
+cdef double _score(first, second):
     cdef str shorter = first.lower()
     cdef str longer =  second.lower()
 

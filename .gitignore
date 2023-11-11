@@ -1,9 +1,5 @@
-.idea/
 *.pyc
 build/
 dist/
-*.egg-info/
 .coverage
-.tox/
-.DS_Store
 .cache

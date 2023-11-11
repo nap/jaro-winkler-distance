@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "pyjarowinkler"
 dynamic = ["version"]
-description = "Find the Jaro Winkler Distance which indicates the similarity score between two Strings"
+description = "Find the Jaro Winkler Distance which indicates the similarity score between two strings."
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { text = "Apache-2.0" }
 requires-python = ">= 3.9"
@@ -13,6 +13,7 @@ keywords = [
   "delta",
   "diff",
   "distance",
+  "similarity",
   "jaro",
   "score",
   "string",
@@ -136,8 +137,8 @@ select = [
 ]
 exclude = [
   ".git",
+  ".github",
   ".ruff_cache",
-  ".tox",
   ".venv",
   "__pycache__",
   "build",
@@ -146,7 +147,6 @@ exclude = [
 ]
 
 [tool.ruff.per-file-ignores]
-# Tests can use magic values, assertions, and relative imports
 "tests/**/*" = [
   "PLR2004",
   "S101",
@@ -163,6 +163,8 @@ known-first-party = ["pyjarowinkler"]
 
 [tool.isort]
 profile = "black"
+src_paths = ["pyjarowinkler", "tests"]
+honor_noqa = true
 
 [tool.mypy]
 files = ["pyjarowinkler"]
@@ -192,6 +194,7 @@ exclude_lines = [
 ]
 
 [tool.pytest.ini_options]
-minversion = "6.0"
-addopts = "-ra"
+minversion = "7.4"
+addopts = "-ra --verbose"
 testpaths = ["tests"]
+pythonpath = ["."]

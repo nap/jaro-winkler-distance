@@ -1,6 +1,9 @@
 # Jaro Winkler Distance
 
-![Jaro Winkler Distance Build Status](https://github.com/nap/jaro-winkler-distance/actions/workflows/workflow.yml/badge.svg?branch=master)
+![PyPI - Version](https://img.shields.io/pypi/v/pyjarowinkler?style=flat-square)
+![License](https://img.shields.io/github/license/nap/jaro-winkler-distance?style=flat-square)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyjarowinkler?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/nap/jaro-winkler-distance/workflow.yml)
 
 Find the Jaro Winkler Distance which indicates the similarity score between two strings or words.
 Jaro's equation measure is the weighted sum of percentage of matched and transposed characters from each strings. Winkler's factor increased this measure for matching prefixed characters.

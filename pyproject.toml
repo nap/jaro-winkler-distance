@@ -43,7 +43,6 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = [
-  "black",
   "coverage",
   "coverage[toml]",
   "hatch",
@@ -61,6 +60,10 @@ Source = "https://github.com/nap/jaro-winkler-distance"
 [tool.hatch.version]
 path = "pyjarowinkler/__about__.py"
 
+[tool.hatch.build]
+ignore-vcs = true
+exclude = [".*", "*.sh"]
+
 [tool.hatch.build.targets.wheel]
 packages = ["pyjarowinkler"]
 
@@ -75,20 +78,19 @@ dependencies = [
 
 [tool.hatch.envs.lint]
 detached = true
-dependencies = ["black", "mypy", "ruff"]
+dependencies = ["mypy", "ruff"]
 
 [tool.hatch.envs.lint.scripts]
-typing = "mypy --install-types --non-interactive {args:pyjarowinkler tests}"
-style = [
-  "ruff {args:.}",
-  "black --check --diff {args:.}",
+typing = [
+  "mypy --help --install-types --non-interactive {args:pyjarowinkler tests}",
+]
+check = [
+  "ruff check --diff --quiet {args:.}",
 ]
 fmt = [
-  "black {args:.}",
-  "ruff --fix {args:.}",
-  "style",
+  "ruff format --diff --quiet {args:.}",
 ]
-all = ["style", "typing"]
+all = ["check", "fmt", "typing"]
 
 [tool.hatch.envs.test]
 dependencies = [
@@ -102,7 +104,6 @@ dependencies = [
 python = ["3.9", "3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.test.scripts]
-version = "python --version"
 run = "pytest"
 cov = "pytest --cov-config=pyproject.toml --cov-report=term --cov=pyjarowinkler/"
 
@@ -135,6 +136,7 @@ select = [
   "W",
   "YTT",
 ]
+ignore = ["ISC001"]
 exclude = [
   ".git",
   ".github",
@@ -174,7 +176,7 @@ show_error_codes = true
 warn_no_return = false
 
 [tool.coverage.run]
-source_pkgs = ["pyjarowinkler", "tests"]
+source_pkgs = ["pyjarowinkler"]
 branch = true
 parallel = true
 omit = [
@@ -195,6 +197,6 @@ exclude_lines = [
 
 [tool.pytest.ini_options]
 minversion = "7.4"
-addopts = "-ra --verbose"
+addopts = "-ra"
 testpaths = ["tests"]
 pythonpath = ["."]

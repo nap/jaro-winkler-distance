@@ -1,93 +1,36 @@
+v2.0 (2024-09-29)
+
 v1.8 (2016-03-22)
-    65da039 Fix README parsing
-    93de94a Update for new release with details of change in implementation
-    b3e4be8 Added 'CONTRIBUTOR' file
     906dd09 Updated test to reflect changes
     8b1b819 Removed code that is no longer reachable
     332e5b1 Added enhancement suggested by @hellrich
-    931ab9c Revert "Fix in _get_matching_characters"
-    e0e7b64 Update tox.ini
     8b24dfd fixed _get_matching_characters
     d03966a Fix in _get_matching_characters
     e70dfea update example with better formatting
-    20bda9a update example
 v1.7 (2015-10-21)
     1659545 fix for typo ensuring backward compatibility
     f81227a fix argparse
-    003eed8 adde forgotten variable for identity
 v1.6 (2015-09-06)
     59b93e5 added information __all__
 v1.5 (2015-09-06)
-    264160c remove merge messages from CHANGELOG
-    97d790a ignore DS_Store
-    ff1f53f added release script
-    40442e4 revert automatic release changes
-    350b37e update bad filename
-    52a2248 update release script with automatic changelog update
-    89b0fc6 update changelog with new format
-    8f10096 added useless output
-    9663294 added version and identity parameter with some debug
     08fd0c2 added usage output
     f3fd289 fix typo and update debug
-    3fa9bff added script to push new version
 v1.4 (2015-08-30)
     2f3107b update to work with py26
     5da90dd update for py26 and py34
     1e1b580 added py26
     1496145 update test, removed frog test because of floating point issue between 2 and 3
-    178676a fix for py3 compatibility
-    06c1787 fix for py34
-    b549fc0 tuned tox config
-    b352006 added .tox directory to ignore list
-    c7d5889 tox config file to run tests
-    b5f0729 added ability to run test through test parameter
-    91d57b8 update travis with TOX deps and run test through setup.py
-    b08600a fix bad link
-    84214dd removed last edit
-    5cad2fa took faulty package out of virtenv
     ab9f89f removed unknown attribute
     2d134d8 update example
 v0.1.3 (2015-08-20)
-    30b29d9 update readme
-    9905775 Update changelog
-    d538031 removed some useless assert
     5f25d27 added test for new winkler disable
-    02d70df latest change
     3a5e93a added ability to unable or disable winkler ajustment
-    eebe617 added author
-    827db01 added bugtrack_url
-    82aa877 added irc notification
-    90e634e added more badge :D
-v0.1.2 (2015-08-04)
-    1b788e5 update release date for v0.1.2
-    e2b5608 updated changes
-    5c8c18f added coverage badge
-    763fd4d latest change
-    96f87ba added converage feature
-    4cbd8c0 added converage file
-    50026f6 added build health
-    bf44cdf added python path in env var
-    2229e8e added python path
-    367af91 added travis yaml config file
     43e86e0 Modified version exception message
-    2b04148 Modified __author__ value
-    da70797 removed typo
-    f7a357a updated change information
-    42dd2e1 modified python version check, will raise exception now
 v0.1.1 (2015-08-02)
-    4747455 added more information
-    a8ae21f change for minimal python requirement
-    2bb212b added ability to enforce minimal python version
-    f616731 changed README.md to README.rst
-    c78f379 Added more change
-    174299d Modified README with more structure and moved from MD to RST format
-    d3459cc Added changelog file
     11bdf2d update summary, download_url, classifier, keywords, platform, and classifiers
     54bc9b8 Added information in setup.py
-    8138f79 Update README.md
 v0.1.0 (2015-07-31)
     5babf40 rename package
-    df5c284 added more file to ignore (egg, dist, and build)
     09a0411 Added setup.py
     a89f1af added test to get 100% coverage. make sure test are uniform
     e8499e7 removed unreachable code and useless conditions
@@ -95,10 +38,5 @@ v0.1.0 (2015-07-31)
     1a68445 fix for forgotten denominator and return empty string on NoneType
     a858eed added test to ensure consistency with StringUtils of common-lang library
     1d33a98 renamed library file
-    39cb3f4 moved example script
     a6cd455 added tests
-    e659da4 Added *.pyc to gitignore
-    25fadab Added gitignore
     5c6f39f Added python code and example
-    eac8375 Update README.md
-

@@ -24,24 +24,10 @@ if ! echo "$1" | grep -qE "major|minor|patch"; then
   exit 1
 fi
 
-CURRENT_VERSION=$(hatch version)
-echo "Current version: {$CURRENT_VERSION}"
+hatch version "$1"
 
-hatch version "$1" > /dev/null 2>&1
-FUTURE_VERSION=$(hatch version)
-echo "Current version: ${FUTURE_VERSION}"
-
-DATE=$(date +%Y-%m-%d)
-CHANGELOG=$(mktemp -t tmp)
-echo "v{$CURRENT_VERSION}  (${DATE}) - $(git config --get user.name) <$(git config --get user.email)>" > "${CHANGELOG}"
-while read -r LINE; do
-	echo -e "    ${LINE}" >> "${CHANGELOG}"
-done <<< "$(git log "v${CURRENT_VERSION}..HEAD" --pretty='format:%h %s by %cn on %as' -- ':*.py')"
-cat ./CHANGELOG >> "${CHANGELOG}"
-cat "${CHANGELOG}" > ./CHANGELOG
-
-git add ./pyjarowinkler/__about__.py ./CHANGELOG
-git commit -m "version bump and changelog update"
+git add ./pyjarowinkler/__about__.py
+git commit -m "release version $(hatch version)"
 git push
 hatch build
 # see https://hatch.pypa.io/latest/publish/#authentication

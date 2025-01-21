@@ -57,25 +57,52 @@ A │             ╎
 ```
 
 ```math
-\begin{split}d &= \left\lfloor {\max(12, 13) \over 2} \right\rfloor - 1 \newline&= 5 \newline\end{split}\qquad\text{ and }\qquad\begin{split}|s_{1}| &= 12 \newline |s_{2}| &= 13 \newline\end{split}\qquad\text{ and }\qquad \begin{split} \ell &= 4 \newline m &= 11 \newline t &= 3 \newline p &= 0.1 \newline \end{split}
+\begin{split}
+   d &= \left\lfloor {\max(12, 13) \over 2} \right\rfloor - 1 \newline
+     &= 5 \newline
+\end{split}
+
+\qquad
+   \text{ and }
+\qquad
+
+\begin{split}
+   |s_{1}| &= 12 \newline
+   |s_{2}| &= 13 \newline
+\end{split}
+
+\qquad
+   \text{ and }
+\qquad
+
+\begin{split}
+   \ell &= 4 \newline
+      m &= 11 \newline
+      t &= 3 \newline
+      p &= 0.1 \newline
+\end{split}
 ```
 
 Considering the input parameters calculated above:
 
 ```math
 \begin{split}
-sim_{j} &=\begin{cases}
-0 & \text{if } m = 0 \newline
-{1 \over 3} \times \left({m \over |s_{1}|} + {m \over |s_{2}|} + {{m - t} \over m} \right) & \text{otherwise}
-\end{cases}\newline
-&={1 \over 3} \times \left({11 \over 12} + {11 \over 13} + {{11 - 3} \over 11}\right) \newline
-&= 0.83003108003 \newline
+   sim_{j} &=\begin{cases}
+               0 & \text{if } m = 0 \newline
+               {1 \over 3} \times \left({m \over |s_{1}|} + {m \over |s_{2}|} + {{m - t} \over m} \right) & \text{otherwise}
+             \end{cases} \newline
+           &={1 \over 3} \times \left({11 \over 12} + {11 \over 13} + {{11 - 3} \over 11}\right) \newline
+           &= 0.83003108003 \newline
 \end{split}
-\qquad\text{then}\qquad
+
+\qquad
+   \text{then}
+\qquad
+
 \begin{split}
-sim_{w} &= sim_{j} + \ell \times p \times (1 - sim_{j}) \newline
-&= 0.83003108003 + 4 \times 0.1 \times (1 - 0.83003108003) \newline
-&= 0.89801864801 \newline
+   sim_{w} &= sim_{j} + \ell \times p \times (1 - sim_{j}) \newline
+           &= 0.83003108003 + 4 \times 0.1 \times (1 - 0.83003108003) \newline
+           &= 0.89801864801 \newline
 \end{split}
 ```
 

@@ -54,9 +54,8 @@ def _get_matches_and_transpositions(short: list[str], long: list[str]) -> tuple[
     """
     Characters are assigned if they are the same and at most 'd' characters away on either sides. This is a
     sliding window and does not wrap around where the middle is the character being evaluated. A character is
-    assigned if it is present in both strings. The assigned character transposed if it was not assigned at the
-    same position.
-        d = longest string's length divided by two, minus one.
+    assigned if it is present in both strings. The assigned character is transposed if it was not assigned at
+    the same position.
     """
     assigned_short: list[str] = [""] * len(short)
     assigned_long: list[str] = [""] * len(long)

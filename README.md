@@ -117,12 +117,16 @@ The original implementation is based on the [Jaro Winkler](https://www.census.go
 ```python
 from pyjarowinkler import distance
 
-distance.get_jaro_distance("hello", "haloa", decimals=2)
-# 0.76
-distance.get_jaro_winkler_distance("hello", "Haloa", scaling=0.1, ignore_case=False)
-# 0.6
-distance.get_jaro_winkler_distance("hello", "HaLoA", scaling=0.1, ignore_case=True)
+distance.get_jaro_distance("hello", "haloa", decimals=4)
+# 0.2667
+distance.get_jaro_similarity("hello", "haloa", decimals=2)
 # 0.73
+distance.get_jaro_winkler_distance("hello", "Haloa", scaling=0.1, ignore_case=False)
+# 0.4
+distance.get_jaro_winkler_distance("hello", "HaLoA", scaling=0.1, ignore_case=True)
+# 0.24
+distance.get_jaro_winkler_similarity("hello", "haloa", decimals=2)
+# 0.76
 ```
 
 ## Contribute

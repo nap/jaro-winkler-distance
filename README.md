@@ -106,7 +106,7 @@ Considering the input parameters calculated above:
 \end{split}
 ```
 
-We found that the $\lceil sim_{w} \rceil$ is $0.9$
+We found that the $\lceil sim_{w} \rceil$ is $0.9$.
 
 ## Implementation
 
@@ -124,3 +124,26 @@ distance.get_jaro_winkler_distance("hello", "Haloa", scaling=0.1, ignore_case=Fa
 distance.get_jaro_winkler_distance("hello", "HaLoA", scaling=0.1, ignore_case=True)
 # 0.73
 ```
+
+## Contribute
+
+You need to have installed [`asdf`](https://asdf-vm.com/) on your system. Then, running the commands below will setup your environment with the project's optional (dev) requirements and create the python virtual environment necessary to run test, lint, and build steps.
+
+Typical order of execution is as follow:
+
+```shell
+$ cd ./jaro-winkler-distance
+$ asdf install
+$ pip install '.[dev]'
+$ hatch python install 3.13 3.12 3.11 3.10 3.9
+$ hatch env create
+```
+
+Other helpful commands:
+
+* `hatch test`
+* `hatch fmt`
+* `hatch env show`
+* `hatch run test:unit`
+* `hatch run test:all`
+* `hatch run lint:all`

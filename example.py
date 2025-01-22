@@ -1,6 +1,4 @@
-"""
-Example for using :func:`distance.get_jaro_distance` of the ``pyjarowinkler`` module.
-"""
+"""Example for using :func:`distance.get_jaro_distance` of the ``pyjarowinkler`` module."""
 
 __author__ = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"
 

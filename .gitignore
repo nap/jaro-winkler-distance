@@ -1,6 +1,4 @@
-*.pyc
-build
 dist
 .coverage
-.cache
 .mypy_cache
+.ruff_cache

@@ -51,12 +51,6 @@ def _sanitize(first: str, second: str, *, ignore_case: bool = False) -> list[str
 
 
 def _get_matches_and_transpositions(short: list[str], long: list[str]) -> tuple[int, int]:
-    """
-    Characters are assigned if they are the same and at most 'd' characters away on either sides. This is a
-    sliding window and does not wrap around where the middle is the character being evaluated. A character is
-    assigned if it is present in both strings. The assigned character is transposed if it was not assigned at
-    the same position.
-    """
     assigned_short: list[str] = [""] * len(short)
     assigned_long: list[str] = [""] * len(long)
 
@@ -93,7 +87,8 @@ def _similarity(short: str, long: str) -> float:
 def get_jaro_similarity(
     first: str, second: str, *, decimals: int = __DEFAULT_DECIMALS__, ignore_case: bool = False
 ) -> float:
-    """Return the Jaro similarity of two strings.
+    """
+    Return the Jaro similarity of two strings.
 
     :param first: String to calculate Jaro similarity for.
     :param second: String to calculate Jaro similarity with.
@@ -109,7 +104,8 @@ def get_jaro_similarity(
 def get_jaro_distance(
     first: str, second: str, *, decimals: int = __DEFAULT_DECIMALS__, ignore_case: bool = False
 ) -> float:
-    """Return the Jaro distance (``1 - jaro_simiarity``) of two strings.
+    """
+    Return the Jaro distance (``1 - jaro_simiarity``) of two strings.
 
     :param first: String to calculate Jaro distance for.
     :param second: String to calculate Jaro distance with.
@@ -130,7 +126,8 @@ def get_jaro_winkler_similarity(
     decimals: int = __DEFAULT_DECIMALS__,
     ignore_case: bool = False,
 ) -> float:
-    """Return the Jaro Winkler simiarity of two strings.
+    """
+    Return the Jaro Winkler simiarity of two strings.
 
     :param first: String to calculate distance for.
     :param second: String to calculate distance with.
@@ -155,7 +152,8 @@ def get_jaro_winkler_distance(
     decimals: int = __DEFAULT_DECIMALS__,
     ignore_case: bool = False,
 ) -> float:
-    """Return the Jaro Winkler distance (``1 - jaro_winkler_simiarity``) of two strings.
+    """
+    Return the Jaro Winkler distance (``1 - jaro_winkler_simiarity``) of two strings.
 
     :param first: String to calculate distance for.
     :param second: String to calculate distance with.

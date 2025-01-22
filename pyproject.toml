@@ -5,9 +5,9 @@ build-backend = "hatchling.build"
 [project]
 name = "pyjarowinkler"
 dynamic = ["version"]
-description = "Find the Jaro Winkler Distance which indicates the similarity score between two strings."
+description = "Find the Jaro Winkler Distance indicating a distance or similarity score between two strings."
 readme = { file = "README.md", content-type = "text/markdown" }
-license = { text = "Apache-2.0" }
+license = { file = "LICENSE" }
 requires-python = ">= 3.9"
 keywords = [
   "delta",
@@ -32,30 +32,25 @@ classifiers = [
   "License :: OSI Approved :: Apache Software License",
   "Operating System :: POSIX :: Linux",
   "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Text Processing",
 ]
 dependencies = []
 
 [project.optional-dependencies]
-dev = [
-  "coverage",
-  "coverage[toml]",
-  "hatch",
-  "mypy",
-  "pytest",
-  "pytest-cov",
-  "ruff",
-]
+dev = ["hatch", "mypy", "ruff"]
 
 [project.urls]
+Homepage = "https://pypi.org/project/pyjarowinkler/"
 Documentation = "https://github.com/nap/jaro-winkler-distance#readme"
 Issues = "https://github.com/nap/jaro-winkler-distance/issues"
 Source = "https://github.com/nap/jaro-winkler-distance"
+Repository = "https://github.com/nap/jaro-winkler-distance.git"
 
 [tool.hatch.version]
 path = "pyjarowinkler/__about__.py"
@@ -68,135 +63,57 @@ exclude = [".*", "*.sh"]
 packages = ["pyjarowinkler"]
 
 [tool.hatch.envs.default]
-python = "3.11"
-dependencies = [
-  "coverage",
-  "coverage[toml]",
-  "pytest",
-  "pytest-cov",
-]
+installer = "uv"
+python = "3.13"
 
 [tool.hatch.envs.lint]
+installer = "uv"
 detached = true
 dependencies = ["mypy", "ruff"]
 
 [tool.hatch.envs.lint.scripts]
-typing = [
-  "mypy {args:pyjarowinkler tests}",
-]
-check = [
-  "ruff check --diff --quiet {args:.}",
-]
-fmt = [
-  "ruff format --diff --quiet {args:.}",
-]
-all = ["check", "fmt", "typing"]
+type = ["mypy {args:pyjarowinkler}"]
+lint = ["ruff check --diff {args:.}"]
+fmt = ["ruff format --diff {args:.}"]
+all = ["lint", "fmt", "type"]
 
 [tool.hatch.envs.test]
-dependencies = [
-  "coverage",
-  "coverage[toml]",
-  "pytest",
-  "pytest-cov",
-]
+installer = "uv"
+detached = true
+dependencies = ["coverage", "coverage[toml]"]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.9", "3.10", "3.11", "3.12"]
+python = ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
 [tool.hatch.envs.test.scripts]
-run = "pytest"
-cov = "pytest --cov-config=pyproject.toml --cov-report=term --cov=pyjarowinkler/"
+unit = "python{env:HATCH_TEST_ARGS:} {args:-m unittest discover -s tests/}"
+cov-test = "coverage run -m unittest discover -s tests/"
+cov-report = "coverage report"
+all = ["cov-test", "cov-report"]
 
 [tool.ruff]
 line-length = 120
-lint.select = [
-  "A",
-  "ARG",
-  "B",
-  "C",
-  "DTZ",
-  "E",
-  "EM",
-  "F",
-  "FBT",
-  "I",
-  "ICN",
-  "ISC",
-  "N",
-  "PLC",
-  "PLE",
-  "PLR",
-  "PLW",
-  "Q",
-  "RUF",
-  "S",
-  "T",
-  "TID",
-  "UP",
-  "W",
-  "YTT",
-]
-lint.ignore = ["ISC001"]
-exclude = [
-  ".git",
-  ".github",
-  ".ruff_cache",
-  ".venv",
-  "__pycache__",
-  "build",
-  "dist",
-  ".vscode",
-]
+extend-exclude = [".github"]
+
+[tool.ruff.lint]
+select = ["E", "F", "N", "D", "B", "Q", "I", "PL", "ARG", "RUF"]
+ignore = ["D212", "D203"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*" = [
-  "PLR2004",
-  "S101",
-  "TID252",
-]
-"example.py" = ["T201"]
-
-[tool.black]
-line-length = 120
-skip-string-normalization = true
+"tests/**/*" = ["D", "PT"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["pyjarowinkler"]
-
-[tool.isort]
-profile = "black"
-src_paths = ["pyjarowinkler", "tests"]
-honor_noqa = true
+known-local-folder = ["pyjarowinkler"]
 
 [tool.mypy]
 files = ["pyjarowinkler"]
 pretty = true
 show_column_numbers = true
 show_error_codes = true
-warn_no_return = false
+warn_redundant_casts = true
+warn_no_return = true
 
 [tool.coverage.run]
-source_pkgs = ["pyjarowinkler"]
+dynamic_context = "test_function"
+source = ["pyjarowinkler"]
 branch = true
-parallel = true
-omit = [
-  "pyjarowinkler/__about__.py",
-  "pyjarowinkler/__init__.py",
-]
-
-[tool.coverage.paths]
-pyjarowinkler = ["pyjarowinkler"]
-tests = ["tests"]
-
-[tool.coverage.report]
-exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
-]
-
-[tool.pytest.ini_options]
-minversion = "7.4"
-addopts = "-ra"
-testpaths = ["tests"]
-pythonpath = ["."]

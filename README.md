@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![PyPI - Version](https://img.shields.io/pypi/v/pyjarowinkler?style=flat-square)
+![PyPI - Version](https://img.shields.io/pypi/v/pyjarowinkler?style=flat-square&link=https%3A%2F%2Fpypi.org%2Fproject%2Fpyjarowinkler%2F)
 ![License](https://img.shields.io/github/license/nap/jaro-winkler-distance?style=flat-square)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyjarowinkler?style=flat-square)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nap/jaro-winkler-distance/push.yml?branch=main&style=flat-square)

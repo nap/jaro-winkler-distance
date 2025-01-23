@@ -38,6 +38,7 @@ if [[ "${PYPI_REPO}" == "main" ]]; then
   git push
   git tag -sa "v${VERSION}" -m "pypi version release v${VERSION}"
   git push origin "v${VERSION}"
+  gh release create "v${VERSION}" ./dist/* --generate-notes
 fi
 
 hatch build --clean

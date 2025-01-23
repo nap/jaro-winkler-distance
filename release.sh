@@ -30,11 +30,14 @@ if [[ ! -v "${PYPI_REPO_USER}" || ! -v "${PYPI_REPO_AUTH}" ]]; then
 fi
 
 hatch version "${1}"
+export VERSION="$(hatch --no-color version | tr -d '\n')"
 
 if [[ "${PYPI_REPO}" == "main" ]]; then
   git add ./pyjarowinkler/__about__.py
-  git commit -m "release version $(hatch --no-color version | tr -d '\n')"
+  git commit -m "release version ${VERSION}"
   git push
+  git tag -sa "v${VERSION}" -m "pypi version release v${VERSION}"
+  git push origin "v${VERSION}"
 fi
 
 hatch build --clean
@@ -43,4 +46,4 @@ hatch publish \
   --user "${!PYPI_REPO_USER}" \
   --auth "${!PYPI_REPO_AUTH}"
 
-echo "done."
+echo "Done publishing ${VERSION}."

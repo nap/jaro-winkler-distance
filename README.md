@@ -15,12 +15,11 @@ Jaro and [Jaro-Winkler](https://www.census.gov/content/dam/Census/library/workin
 
 This version is based on the [original C implementation of strcmp95](https://web.archive.org/web/20100227020019/http://www.census.gov/geo/msb/stand/strcmp.c) implementation but does not attempt to normalize characters that are similar to the eyes (e.g.: `O` vs `0`).
 
-> [!NOTE]
-> * Impact of the prefix is limited to 4 characters, as originally defined by Winkler.
-> * Input strings are not modified beyond whitespace trimming.
-> * In-word whitespace and characters case will **optionally** impact score.
-> * Returns a floating point number rounded to the desired decimals (defaults to `2`) using Python's [`round`](https://docs.python.org/3/library/functions.html#round).
-> * Consider usual [floating point arithmetic](https://docs.python.org/3/tutorial/floatingpoint.html#tut-fp-issues) characteristics when working with this module.
+ * Impact of the prefix is limited to 4 characters, as originally defined by Winkler.
+ * Input strings are not modified beyond whitespace trimming.
+ * In-word whitespace and characters case will **optionally** impact score.
+ * Returns a floating point number rounded to the desired decimals (defaults to `2`) using Python's [`round`](https://docs.python.org/3/library/functions.html#round).
+ * Consider usual [floating point arithmetic](https://docs.python.org/3/tutorial/floatingpoint.html#tut-fp-issues) characteristics when working with this module.
 
 ## Implementation
 
@@ -34,17 +33,15 @@ Here is how `matching` and `transposed` are defined in this module:
 * Two characters are `transposed` if they previously matched and aren't at the same position in the matching character subset.
 * Decimals are rounded according to the scientific method.
 
-> [!NOTE]
->
-> **TODO**: Implementation should be refactored to use Python's [Decimal](https://docs.python.org/3.13/library/decimal.html) module from the standard library. This module was introduced in Python 3.9.
+**TODO**: Implementation should be refactored to use Python's [Decimal](https://docs.python.org/3.13/library/decimal.html) module from the standard library. This module was introduced in Python 3.9.
 
 ### Example
 
 Calculate the Jaro Winkler similarity ($sim_{w}$) between `PENNSYLVANIA` and `PENNCISYLVNIA`:
 
-```math
+$$
 s_{1}=\text{PENNSYLVANIA} \qquad\text{and}\qquad s_{2}=\text{PENNCISYLVNIA}
-```
+$$
 
 ```
     P E N N C I S Y L V N I A
@@ -63,36 +60,32 @@ I │           ╎           1
 A │             ╎
 ```
 
-```math
+$$
 \begin{split}
    d &= \left\lfloor {\max(12, 13) \over 2} \right\rfloor - 1 \newline
      &= 5 \newline
 \end{split}
-
 \qquad
    \text{ and }
 \qquad
-
 \begin{split}
    |s_{1}| &= 12 \newline
    |s_{2}| &= 13 \newline
 \end{split}
-
 \qquad
    \text{ and }
 \qquad
-
 \begin{split}
    \ell &= 4 \newline
       m &= 11 \newline
       t &= 3 \newline
       p &= 0.1 \newline
 \end{split}
-```
+$$
 
 Considering the input parameters calculated above:
 
-```math
+$$
 \begin{split}
    sim_{j} &=\begin{cases}
                0 & \text{if } m = 0 \newline
@@ -101,17 +94,15 @@ Considering the input parameters calculated above:
            &={1 \over 3} \times \left({11 \over 12} + {11 \over 13} + {{11 - 3} \over 11}\right) \newline
            &= 0.83003108003 \newline
 \end{split}
-
 \qquad
    \text{then}
 \qquad
-
 \begin{split}
    sim_{w} &= sim_{j} + \ell \times p \times (1 - sim_{j}) \newline
            &= 0.83003108003 + 4 \times 0.1 \times (1 - 0.83003108003) \newline
            &= 0.89801864801 \newline
 \end{split}
-```
+$$
 
 We found that the $\lceil sim_{w} \rceil$ is $0.9$.
 
@@ -158,3 +149,10 @@ Other helpful commands:
 * `hatch run test:unit`
 * `hatch run test:all`
 * `hatch run lint:all`
+
+## Release
+
+```shell
+$ ./release.sh help
+Usage: release.sh [help|major|minor|patch]
+```

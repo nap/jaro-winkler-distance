@@ -1,9 +1,13 @@
 # Jaro Winkler Distance
 
+<div align="center">
+
 ![PyPI - Version](https://img.shields.io/pypi/v/pyjarowinkler?style=flat-square)
 ![License](https://img.shields.io/github/license/nap/jaro-winkler-distance?style=flat-square)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyjarowinkler?style=flat-square)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/nap/jaro-winkler-distance/workflow.yml)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nap/jaro-winkler-distance/push.yml?branch=main&style=flat-square)
+
+</div>
 
 This library find non-euclidean distance or similarity between two strings.
 

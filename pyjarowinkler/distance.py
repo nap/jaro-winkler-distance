@@ -92,7 +92,7 @@ def get_jaro_similarity(
 
     :param first: String to calculate Jaro similarity for.
     :param second: String to calculate Jaro similarity with.
-    :param ignore_case: Convert string to uppser case characters.
+    :param ignore_case: Convert string to uppercase characters.
     :param decimals: Number of decimals to allow in result, defaults to :data:`2`.
     :raises JaroDistanceError: Raises an exception if provided arguments aren't strings.
     :return: Similarity between the two provided strings.
@@ -109,7 +109,7 @@ def get_jaro_distance(
 
     :param first: String to calculate Jaro distance for.
     :param second: String to calculate Jaro distance with.
-    :param ignore_case: Convert string to uppser case characters.
+    :param ignore_case: Convert string to uppercase characters.
     :param decimals: Number of decimals to allow in result, defaults to :data:`2`.
     :raises JaroDistanceError: Raises an exception if provided arguments aren't strings.
     :return: Similarity between the two provided strings.
@@ -127,11 +127,11 @@ def get_jaro_winkler_similarity(
     ignore_case: bool = False,
 ) -> float:
     """
-    Return the Jaro Winkler simiarity of two strings.
+    Return the Jaro Winkler similarity of two strings.
 
     :param first: String to calculate distance for.
     :param second: String to calculate distance with.
-    :param ignore_case: Convert string to uppser case characters.
+    :param ignore_case: Convert string to uppercase characters.
     :param decimals: Number of decimals to allow in result.
     :param winkler: Adds Winkler adjustment factor to the similarity calculation.
     :param scaling: Scaling factor of the prefix of the compared strings, typically
@@ -157,7 +157,7 @@ def get_jaro_winkler_distance(
 
     :param first: String to calculate distance for.
     :param second: String to calculate distance with.
-    :param ignore_case: Convert string to uppser case characters.
+    :param ignore_case: Convert string to uppercase characters.
     :param decimals: Number of decimals to allow in result.
     :param winkler: Adds Winkler adjustment factor to the similarity calculation.
     :param scaling: Scaling factor of the prefix of the compared strings, typically

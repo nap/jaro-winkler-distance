@@ -9,32 +9,34 @@
 
 </div>
 
-This library find non-euclidean distance or similarity between two strings.
+This module finds a non-euclidean distance or similarity between two strings.
 
-Jaro and Jaro-Winkler equations provides a score between two short words where errors are more prone at the end of the word. Jaro's equation measure is the weighted sum of percentage of equal and transposed characters from each strings. Winkler's factor adds a weight in Jaro's formula to increased the calculated measure when there are a sequance of characters (prefix) that matches between the compaired items.
+Jaro and [Jaro-Winkler](https://www.census.gov/content/dam/Census/library/working-papers/1991/adrm/rr91-9.pdf) equations provides a score between two short strings where errors are more prone at the end of the string. Jaro's equation measure is the weighted sum of the percentage of matching and transposed characters from each string. Winkler's factor adds weight in Jaro's formula to increase the calculated measure when there is a sequence of characters (a prefix) in both strings.
+
+This version is based on the [original C implementation of strcmp95](https://web.archive.org/web/20100227020019/http://www.census.gov/geo/msb/stand/strcmp.c) implementation but does not attempt to normalize characters that are similar to the eyes (e.g.: `O` vs `0`).
 
 > [!NOTE]
-> * Impact of prefix is limited to 4 characters, as originally defined by Winkler.
+> * Impact of the prefix is limited to 4 characters, as originally defined by Winkler.
 > * Input strings are not modified beyond whitespace trimming.
-> * In-word whitespace and characters case can **optionally** impact score.
-> * Returns a floating point number rounded to the desired decimals (defaults to `2`) using Python's [`round()`](https://docs.python.org/3/library/functions.html#round).
-> * Consider usual [Floating Point Arithmetic](https://docs.python.org/3/tutorial/floatingpoint.html#tut-fp-issues) characterisitcs when working with this library.
+> * In-word whitespace and characters case will **optionally** impact score.
+> * Returns a floating point number rounded to the desired decimals (defaults to `2`) using Python's [`round`](https://docs.python.org/3/library/functions.html#round).
+> * Consider usual [floating point arithmetic](https://docs.python.org/3/tutorial/floatingpoint.html#tut-fp-issues) characteristics when working with this module.
 
-## Notes on Calculation
+## Implementation
 
-The complexity of this algoritme reside in the calculation of `matching` and `transposed` characters. That is because the interepretation of the meaning of what are the `matching` conditions and `transposed` definition. Definitions of those words will make the score vary between implementations of the algorithme.
+The complexity of this algoritme resides in finding the `matching` and `transposed` characters. That is because of the interpretation of what are the `matching` conditions and the definition of `transposed`. Definitions of those two will make the score vary between implementations of this algorithme.
 
-Here is how `matching` and `transposed` are definied:
+Here is how `matching` and `transposed` are defined in this module:
 
-* A character of the first string is `matching` if it's included in the second string within the specified `distance` on either sides.
-* A character in the first string cannot be matched multiple time to the same character of the second string.
+* A character of the first string at position `N` is `matching` if found at position `N` or within `distance` on either side in the second string.
+* The `distance` is calculated using the rounded down length of the longest string divided by two minus one.
+* Characters in the first string are matched only once against characters of the second string.
+* Two characters are `transposed` if they previously matched and aren't at the same position in the matching character subset.
 * Decimals are rounded according to the scientific method.
-* Two characters are `transposed` if they match, but aren't matched at the same position.
-* The `limit` is calculated using the length of the longest string devided by two minus one.
 
-> [!IMPORTANT]
+> [!NOTE]
 >
-> **TODO**: Use python's std library [Decimal](https://docs.python.org/3.12/library/decimal.html)
+> **TODO**: Implementation should be refactored to use Python's [Decimal](https://docs.python.org/3.13/library/decimal.html) module from the standard library. This module was introduced in Python 3.9.
 
 ### Example
 
@@ -50,9 +52,9 @@ s_{1}=\text{PENNSYLVANIA} \qquad\text{and}\qquad s_{2}=\text{PENNCISYLVNIA}
 P │ 1          ╎
 E │   1          ╎
 N │     1          ╎
-N │       1          ╎          Symbole '╎' represent the sliding window's
-S │             1      ╎        boundry in the second string where we look
-Y │ ╎             1      ╎          for the first string's character.
+N │       1          ╎           Symbols '╎' represent the sliding windows
+S │             1      ╎        boundary in the second string where we look
+Y │ ╎             1      ╎           for the first string's character.
 L │   ╎             1      ╎
 V │     ╎             1                   d = 5 in this example.
 A │       ╎                 1
@@ -113,11 +115,7 @@ Considering the input parameters calculated above:
 
 We found that the $\lceil sim_{w} \rceil$ is $0.9$.
 
-## Implementation
-
-The original implementation is based on the [Jaro Winkler](https://www.census.gov/content/dam/Census/library/working-papers/1991/adrm/rr91-9.pdf) Similarity Algorithm article that can be found on [Wikipedia](http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance). This version of is based on the [original C implementation of strcmp95](https://web.archive.org/web/20100227020019/http://www.census.gov/geo/msb/stand/strcmp.c) library.
-
-## Example
+## Usage
 
 ```python
 from pyjarowinkler import distance

@@ -60,15 +60,16 @@ ignore-vcs = true
 exclude = [".*", "*.sh"]
 
 [tool.hatch.build.targets.wheel]
+only-packages = true
 packages = ["pyjarowinkler"]
 
 [tool.hatch.envs.default]
+platforms = ["linux", "macos"]
 installer = "uv"
-python = "3.13"
 
 [tool.hatch.envs.lint]
-installer = "uv"
 detached = true
+skip-install = true
 dependencies = ["mypy", "ruff"]
 
 [tool.hatch.envs.lint.scripts]
@@ -78,8 +79,7 @@ fmt = ["ruff format --diff {args:.}"]
 all = ["lint", "fmt", "type"]
 
 [tool.hatch.envs.test]
-installer = "uv"
-detached = true
+skip-install = true
 dependencies = ["coverage", "coverage[toml]"]
 
 [[tool.hatch.envs.test.matrix]]

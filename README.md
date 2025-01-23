@@ -38,10 +38,11 @@ Here is how `matching` and `transposed` are definied:
 
 ### Example
 
-Calculate the similarity between:
+Calculate the Jaro Winkler similarity ($sim_{w}$) between `PENNSYLVANIA` and `PENNCISYLVNIA`:
 
-* First word: `PENNSYLVANIA`
-* Second word: `PENNCISYLVNIA`
+```math
+s_{1}=\text{PENNSYLVANIA} \qquad\text{and}\qquad s_{2}=\text{PENNCISYLVNIA}
+```
 
 ```
     P E N N C I S Y L V N I A
@@ -51,7 +52,7 @@ E │   1          ╎
 N │     1          ╎
 N │       1          ╎          Symbole '╎' represent the sliding window's
 S │             1      ╎        boundry in the second string where we look
-Y │ ╎             1      ╎      for the first string's character.
+Y │ ╎             1      ╎          for the first string's character.
 L │   ╎             1      ╎
 V │     ╎             1                   d = 5 in this example.
 A │       ╎                 1
@@ -121,6 +122,10 @@ The original implementation is based on the [Jaro Winkler](https://www.census.go
 ```python
 from pyjarowinkler import distance
 
+distance.get_jaro_similarity("PENNSYLVANIA", "PENNCISYLVNIA", decimals=12)
+# 0.830031080031
+distance.get_jaro_winkler_similarity("PENNSYLVANIA", "PENNCISYLVNIA", decimals=12)
+# 0.898018648019
 distance.get_jaro_distance("hello", "haloa", decimals=4)
 # 0.2667
 distance.get_jaro_similarity("hello", "haloa", decimals=2)

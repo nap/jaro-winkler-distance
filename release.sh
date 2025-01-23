@@ -1,36 +1,44 @@
 #!/usr/bin/env bash
 set -e -o pipefail
 
-: "${HATCH_INDEX_REPO:=main}"  # or test
-
-if ! git diff-index --quiet HEAD; then
-	echo "Cannot proceed, there are uncommited changes."
-	exit 1
-fi
-
-if [[ -z "${HATCH_INDEX_USER}" ]] || [[ -z "${HATCH_INDEX_AUTH}" ]]; then
-  echo "Make sure environment variables HATCH_INDEX_USER and HATCH_INDEX_AUTH are set."
-  exit 1
-fi
+: "${PYPI_REPO:=test}" # or main
+: "${USAGE_HELP:="Usage: release.sh [help|major|minor|patch]"}"
 
 if echo "$@" | grep -q -- 'help' || [[ ${#@} -lt 1 ]]; then
-  echo "Usage: release.sh [help|major|minor|patch]"
+  echo "${USAGE_HELP}"
   exit 0
+fi
+
+if ! git diff-index --quiet HEAD; then
+  echo "Cannot proceed, there are uncommited changes."
+  echo "${USAGE_HELP}"
+  exit 1
 fi
 
 if ! echo "$1" | grep -qE "major|minor|patch"; then
   echo "Select one of: major, minor, patch"
-  echo "Usage: release.sh [help|major|minor|patch]"
+  echo "${USAGE_HELP}"
   exit 1
 fi
 
-hatch version "$1"
+export PYPI_REPO_USER="PYPI_${PYPI_REPO^^}_USER"
+export PYPI_REPO_AUTH="PYPI_${PYPI_REPO^^}_AUTH"
+if [[ ! -v "${PYPI_REPO_USER}" || ! -v "${PYPI_REPO_AUTH}" ]]; then
+  echo "You must set environment variable ${PYPI_REPO_USER} and ${PYPI_REPO_AUTH}"
+  echo "${USAGE_HELP}"
+  exit 1
+fi
+
+hatch version "${1}"
 
 git add ./pyjarowinkler/__about__.py
-git commit -m "release version $(hatch version)"
+git commit -m "release version $(hatch version | tr -d '\n')"
 git push
+
 hatch build
-# see https://hatch.pypa.io/latest/publish/#authentication
-# Set HATCH_INDEX_USER
-# Set HATCH_INDEX_AUTH
-hatch publish
+hatch publish \
+  --repo "${PYPI_REPO}" \
+  --user "${!PYPI_REPO_USER}" \
+  --auth "${!PYPI_REPO_AUTH}"
+
+echo "done."

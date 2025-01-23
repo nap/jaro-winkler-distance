@@ -48,7 +48,6 @@ jobs:
     needs:
       - test
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -58,9 +57,7 @@ jobs:
       - run: pip install '.[dev]'
       - run: hatch build --clean
       - id: hatch
-        run: echo "package_version=$(hatch version | tr -d '\n')" >> "${GITHUB_OUTPUT}"
-        env:
-          FORCE_COLOR: 0
+        run: echo "package_version=$(hatch --no-color version | tr -d '\n')" >> "${GITHUB_OUTPUT}"
       - uses: actions/upload-artifact@v4
         with:
           name: pyjarowinkler-${{ steps.hatch.outputs.package_version }}

@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "pyjarowinkler"
 dynamic = ["version"]
-description = "Find the Jaro Winkler Distance indicating a distance or similarity score between two strings."
+description = "Finds the Jaro Winkler Distance indicating a distance or similarity score between two strings."
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE" }
 requires-python = ">= 3.9"

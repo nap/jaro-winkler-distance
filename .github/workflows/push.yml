@@ -26,6 +26,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.13
+          cache: pip
       - run: pip install '.[dev]'
       - run: hatch run lint:type
       - run: hatch run lint:fmt
@@ -60,10 +61,10 @@ jobs:
       - run: pip install '.[dev]'
       - run: hatch build --clean
       - id: hatch
-        run: |
-          PACKAGE_VERSION=$(hatch version | tr -d '\n')
-          echo "package_version=pyjarowinkler-${PACKAGE_VERSION}-py3-none-any.whl" >> "${GITHUB_OUTPUT}"
+        run: echo "package_version=$(hatch version | tr -d '\n')" >> "${GITHUB_OUTPUT}"
       - uses: actions/upload-artifact@v4
         with:
-          name: pyjarowinkler-${{ steps.hatch.outputs.version }}
-          path: dist/pyjarowinkler-*.whl
+          name: pyjarowinkler-${{ steps.hatch.outputs.package_version }}
+          path: dist/pyjarowinkler-*
+          if-no-files-found: error
+          overwrite: true

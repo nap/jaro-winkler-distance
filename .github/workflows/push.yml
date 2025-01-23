@@ -10,10 +10,6 @@ concurrency:
   group: lint-and-test-${{ github.head_ref }}
   cancel-in-progress: true
 
-env:
-  PYTHONUNBUFFERED: 1
-  FORCE_COLOR: 1
-
 defaults:
   run:
     shell: bash
@@ -58,10 +54,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.13
+          cache: pip
       - run: pip install '.[dev]'
       - run: hatch build --clean
       - id: hatch
         run: echo "package_version=$(hatch version | tr -d '\n')" >> "${GITHUB_OUTPUT}"
+        env:
+          FORCE_COLOR: 0
       - uses: actions/upload-artifact@v4
         with:
           name: pyjarowinkler-${{ steps.hatch.outputs.package_version }}

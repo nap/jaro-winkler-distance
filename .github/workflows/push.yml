@@ -7,7 +7,7 @@ on:
       - main
 
 concurrency:
-  group: lint-and-test-${{ github.head_ref }}
+  group: lint-and-test-${{ github.event_name }}-${{ github.ref_name }}
   cancel-in-progress: true
 
 defaults:

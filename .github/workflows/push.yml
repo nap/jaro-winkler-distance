@@ -1,0 +1,69 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+concurrency:
+  group: lint-and-test-${{ github.head_ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONUNBUFFERED: 1
+  FORCE_COLOR: 1
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.13
+      - run: pip install '.[dev]'
+      - run: hatch run lint:type
+      - run: hatch run lint:fmt
+
+  test:
+    name: python-${{ matrix.python-version }}
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: python-${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install '.[dev]'
+      - run: hatch run +py=${{ matrix.python-version }} test:all
+
+  package:
+    name: Package
+    needs:
+      - test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.13
+      - run: pip install '.[dev]'
+      - run: hatch build --clean
+      - id: hatch
+        run: |
+          echo "version=$(hatch version)" >> "${GITHUB_OUTPUT}"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: pyjarowinkler-${{ steps.hatch.outputs.version }}-py3-none-any.whl
+          path: dist/pyjarowinkler-*.whl

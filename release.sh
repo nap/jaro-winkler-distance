@@ -31,11 +31,13 @@ fi
 
 hatch version "${1}"
 
-git add ./pyjarowinkler/__about__.py
-git commit -m "release version $(hatch version | tr -d '\n')"
-git push
+if [[ "${PYPI_REPO}" == "main" ]]; then
+  git add ./pyjarowinkler/__about__.py
+  git commit -m "release version $(hatch --no-color version | tr -d '\n')"
+  git push
+fi
 
-hatch build
+hatch build --clean
 hatch publish \
   --repo "${PYPI_REPO}" \
   --user "${!PYPI_REPO_USER}" \

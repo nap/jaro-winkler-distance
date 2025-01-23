@@ -48,7 +48,6 @@ jobs:
       - run: hatch run +py=${{ matrix.python-version }} test:all
 
   package:
-    name: Package
     needs:
       - test
     runs-on: ubuntu-latest
@@ -62,8 +61,9 @@ jobs:
       - run: hatch build --clean
       - id: hatch
         run: |
-          echo "version=$(hatch version)" >> "${GITHUB_OUTPUT}"
-      - uses: actions/upload-artifact@v3
+          PACKAGE_VERSION=$(hatch version | tr -d '\n')
+          echo "package_version=pyjarowinkler-${PACKAGE_VERSION}-py3-none-any.whl" >> "${GITHUB_OUTPUT}"
+      - uses: actions/upload-artifact@v4
         with:
-          name: pyjarowinkler-${{ steps.hatch.outputs.version }}-py3-none-any.whl
+          name: pyjarowinkler-${{ steps.hatch.outputs.version }}
           path: dist/pyjarowinkler-*.whl

@@ -30,7 +30,7 @@ classifiers = [
   "Intended Audience :: Developers",
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: Apache Software License",
-  "Operating System :: POSIX :: Linux",
+  "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.9",
@@ -103,6 +103,8 @@ ignore = ["D212", "D203"]
 "tests/**/*" = ["D", "PT"]
 
 [tool.ruff.lint.isort]
+case-sensitive = true
+lines-after-imports = 1
 known-local-folder = ["pyjarowinkler"]
 
 [tool.mypy]
@@ -115,5 +117,12 @@ warn_no_return = true
 
 [tool.coverage.run]
 dynamic_context = "test_function"
-source = ["pyjarowinkler"]
+source = ["pyjarowinkler", "tests"]
 branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]

@@ -1,3 +1,5 @@
+"""Finds a non-euclidean distance or similarity between two strings."""
+
 from pyjarowinkler import JaroDistanceError
 
 __author__ = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"

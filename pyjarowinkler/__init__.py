@@ -9,5 +9,16 @@ __author__ = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"
 
 
 class JaroDistanceError(Exception):
+    """
+    Exception raised for errors encountered during Jaro-Winkler distance calculations.
+
+    param: message (str): Explanation of the error.
+    """
+
     def __init__(self, message) -> None:
+        """
+        Initialize the JaroDistanceError exception.
+
+        param: message (str): Explanation of the error.
+        """
         super(Exception, self).__init__(message)

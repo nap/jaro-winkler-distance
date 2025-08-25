@@ -9,8 +9,10 @@ if echo "$@" | grep -q -- 'help' || [[ ${#@} -lt 1 ]]; then
   exit 0
 fi
 
-if ! git diff-index --quiet HEAD; then
-  echo "Cannot proceed, there are uncommited changes."
+stubgen --package pyjarowinkler --output .
+
+if ! git diff --quiet HEAD -- . ':(exclude)release.sh'; then
+  echo "Cannot proceed, there are uncommitted changes."
   echo "${USAGE_HELP}"
   exit 1
 fi
@@ -21,19 +23,20 @@ if ! echo "$1" | grep -qE "major|minor|patch"; then
   exit 1
 fi
 
+! gh auth status >/dev/null && exit 1
+
 export PYPI_REPO_USER="PYPI_${PYPI_REPO^^}_USER"
 export PYPI_REPO_AUTH="PYPI_${PYPI_REPO^^}_AUTH"
-if [[ ! -v "${PYPI_REPO_USER}" || ! -v "${PYPI_REPO_AUTH}" ]]; then
+if [[ -z "${!PYPI_REPO_USER}" || -z "${!PYPI_REPO_AUTH}" ]]; then
   echo "You must set environment variable ${PYPI_REPO_USER} and ${PYPI_REPO_AUTH}"
   echo "${USAGE_HELP}"
   exit 1
 fi
 
-hatch version "${1}"
-export VERSION="$(hatch --no-color version | tr -d '\n')"
+export VERSION=$(uv version --short --bump "${1}")
 
 if [[ "${PYPI_REPO}" == "main" ]]; then
-  git add ./pyjarowinkler/__about__.py
+  git add pyproject.toml
   git commit -m "release version ${VERSION}"
   git push
   git tag -sa "v${VERSION}" -m "pypi version release v${VERSION}"
@@ -41,10 +44,11 @@ if [[ "${PYPI_REPO}" == "main" ]]; then
   gh release create "v${VERSION}" ./dist/* --generate-notes
 fi
 
-hatch build --clean
-hatch publish \
-  --repo "${PYPI_REPO}" \
+[[ -d ./dist ]] && rm -vRf ./dist
+
+uv build
+uv publish \
   --user "${!PYPI_REPO_USER}" \
-  --auth "${!PYPI_REPO_AUTH}"
+  --token "${!PYPI_REPO_AUTH}"
 
 echo "Done publishing ${VERSION}."

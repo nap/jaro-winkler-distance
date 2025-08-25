@@ -14,18 +14,19 @@ defaults:
   run:
     shell: bash
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v6
         with:
           python-version: 3.13
-          cache: pip
-      - run: pip install '.[dev]'
-      - run: hatch run lint:type
-      - run: hatch run lint:fmt
+      - run: uvx ruff check --diff
+      - run: uvx ruff format --diff
 
   test:
     name: python-${{ matrix.python-version }}
@@ -38,11 +39,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: python-${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: astral-sh/setup-uv@v6
         with:
           python-version: ${{ matrix.python-version }}
-      - run: pip install '.[dev]'
-      - run: hatch run +py=${{ matrix.python-version }} test:all
+      - run: uvx --with 'coverage[toml]' coverage run -m unittest discover -s tests/
+      - run: uvx --with 'coverage[toml]' coverage report
 
   package:
     needs:
@@ -50,17 +51,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v6
         with:
           python-version: 3.13
-          cache: pip
-      - run: pip install '.[dev]'
-      - run: hatch build --clean
-      - id: hatch
-        run: echo "package_version=$(hatch --no-color version | tr -d '\n')" >> "${GITHUB_OUTPUT}"
+      - run: uv build --verbose
+      - id: uv
+        run: echo "package_version=$(uv version --short | tr -d '\n')" >> "${GITHUB_OUTPUT}"
       - uses: actions/upload-artifact@v4
         with:
-          name: pyjarowinkler-${{ steps.hatch.outputs.package_version }}
+          name: pyjarowinkler-${{ steps.uv.outputs.package_version }}
           path: dist/pyjarowinkler-*
           if-no-files-found: error
           overwrite: true

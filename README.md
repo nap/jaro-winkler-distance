@@ -9,7 +9,7 @@
 
 </div>
 
-This module finds a non-euclidean distance or similarity between two strings.
+Finds a non-euclidean distance or similarity between two strings.
 
 Jaro and [Jaro-Winkler](https://www.census.gov/content/dam/Census/library/working-papers/1991/adrm/rr91-9.pdf) equations provides a score between two short strings where errors are more prone at the end of the string. Jaro's equation measure is the weighted sum of the percentage of matching and transposed characters from each string. Winkler's factor adds weight in Jaro's formula to increase the calculated measure when there is a sequence of characters (a prefix) in both strings.
 
@@ -129,30 +129,31 @@ distance.get_jaro_winkler_similarity("hello", "haloa", decimals=2)
 
 ## Contribute
 
-You need to have installed [`asdf`](https://asdf-vm.com/) on your system. Then, running the commands below will setup your environment with the project's optional (dev) requirements and create the python virtual environment necessary to run test, lint, and build steps.
+You need to have installed [`mise`](https://mise.jdx.dev/) on your system. Then, running the commands below will install `python`, `uv`, and `github-cli`.
 
 Typical order of execution is as follow:
 
 ```shell
 $ cd ./jaro-winkler-distance
-$ asdf install
-$ pip install '.[dev]'
-$ hatch python install 3.13 3.12 3.11 3.10 3.9
-$ hatch env create
+$ mise install
+$ uv venv
+$ source .venv/bin/activate
+$ uv pip install '.[dev]'
 ```
 
 Other helpful commands:
 
-* `hatch test`
-* `hatch fmt`
-* `hatch env show`
-* `hatch run test:unit`
-* `hatch run test:all`
-* `hatch run lint:all`
+* `uvx --python=3.12 python -m unittest discover -s tests/`
+* `uvx ruff check --diff`
+* `uvx ruff format --diff`
+* `uvx mypy`
+* `uvx coverage run -m unittest discover -s tests/`
+* `uvx coverage report`
 
 ## Release
 
 ```shell
 $ ./release.sh help
 Usage: release.sh [help|major|minor|patch]
+$ PYPI_REPO=main ./release.sh minor
 ```

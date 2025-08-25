@@ -11,7 +11,7 @@ fi
 
 stubgen --package pyjarowinkler --output .
 
-if ! git diff --quiet HEAD -- . ':(exclude)release.sh'; then
+if ! git diff --quiet HEAD -- . ':(exclude)release.sh' ':(exclude)uv.lock'; then
   echo "Cannot proceed, there are uncommitted changes."
   echo "${USAGE_HELP}"
   exit 1
@@ -36,7 +36,7 @@ fi
 export VERSION=$(uv version --short --bump "${1}")
 
 if [[ "${PYPI_REPO}" == "main" ]]; then
-  git add pyproject.toml
+  git add pyproject.toml uv.lock
   git commit -m "release version ${VERSION}"
   git push
   git tag -sa "v${VERSION}" -m "pypi version release v${VERSION}"
@@ -47,8 +47,6 @@ fi
 [[ -d ./dist ]] && rm -vRf ./dist
 
 uv build
-uv publish \
-  --user "${!PYPI_REPO_USER}" \
-  --token "${!PYPI_REPO_AUTH}"
+uv publish --token "${!PYPI_REPO_AUTH}"
 
 echo "Done publishing ${VERSION}."

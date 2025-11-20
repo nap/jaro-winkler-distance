@@ -11,7 +11,7 @@
 
 Finds a non-euclidean distance or similarity between two strings.
 
-Jaro and [Jaro-Winkler](https://www.census.gov/content/dam/Census/library/working-papers/1991/adrm/rr91-9.pdf) equations provides a score between two short strings where errors are more prone at the end of the string. Jaro's equation measure is the weighted sum of the percentage of matching and transposed characters from each string. Winkler's factor adds weight in Jaro's formula to increase the calculated measure when there is a sequence of characters (a prefix) in both strings.
+Jaro and [Jaro-Winkler](https://www.census.gov/content/dam/Census/library/working-papers/1991/adrm/rr91-9.pdf) equations provide a score between two short strings where errors are more prone at the end of the string. Jaro's equation measure is the weighted sum of the percentage of matching and transposed characters from each string. Winkler's factor adds weight in Jaro's formula to increase the calculated measure when there is a sequence of characters (a prefix) in both strings.
 
 This version is based on the [original C implementation of strcmp95](https://web.archive.org/web/20100227020019/http://www.census.gov/geo/msb/stand/strcmp.c) implementation but does not attempt to normalize characters that are similar to the eyes (e.g.: `O` vs `0`).
 
@@ -23,7 +23,7 @@ This version is based on the [original C implementation of strcmp95](https://web
 
 ## Implementation
 
-The complexity of this algoritme resides in finding the `matching` and `transposed` characters. That is because of the interpretation of what are the `matching` conditions and the definition of `transposed`. Definitions of those two will make the score vary between implementations of this algorithme.
+The complexity of this algorithm resides in finding the `matching` and `transposed` characters. That is because of the interpretation of what are the `matching` conditions and the definition of `transposed`. Definitions of those two will make the score vary between implementations of this algorithm.
 
 Here is how `matching` and `transposed` are defined in this module:
 

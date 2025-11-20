@@ -15,7 +15,7 @@ class JaroDistanceError(Exception):
     param: message (str): Explanation of the error.
     """
 
-    def __init__(self, message) -> None:
+    def __init__(self, message: str) -> None:
         """
         Initialize the JaroDistanceError exception.
 

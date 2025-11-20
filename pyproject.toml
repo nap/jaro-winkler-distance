@@ -1,6 +1,6 @@
 [project]
 name = "pyjarowinkler"
-version = "2.1.1"
+version = "2.2.0"
 description = "Finds the Jaro Winkler Distance indicating a distance or similarity score between two strings."
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE" }

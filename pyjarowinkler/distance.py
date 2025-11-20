@@ -14,7 +14,7 @@ def _get_prefix(short: str, long: str) -> int:
         return len(short[:__MAX_PREFIX_LENGTH__])
 
     prefix: int = 0
-    for left, right in zip(short[:__MAX_PREFIX_LENGTH__], long[:__MAX_PREFIX_LENGTH__]):
+    for left, right in zip(short[:__MAX_PREFIX_LENGTH__], long[:__MAX_PREFIX_LENGTH__], strict=False):
         if left != right:
             break
 
@@ -32,7 +32,7 @@ def _clean(assigned: list[str]) -> None:
 
 
 def _get_transpositions(first: list[str], second: list[str]) -> int:
-    return sum(left != right for left, right in zip(first, second)) // 2
+    return sum(left != right for left, right in zip(first, second, strict=True)) // 2
 
 
 def _sanitize(first: str, second: str, *, ignore_case: bool = False) -> list[str]:

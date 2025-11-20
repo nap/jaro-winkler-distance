@@ -26,28 +26,28 @@ class TestDistance(unittest.TestCase):
 
     def test_sanitize_exception(self) -> None:
         with self.assertRaises(distance.JaroDistanceError):
-            distance._sanitize(None, None)
+            distance._sanitize(None, None) # type: ignore
 
     def test_sanitize_exception_args(self) -> None:
         with self.assertRaises(distance.JaroDistanceError):
-            distance._sanitize("4", 333)
+            distance._sanitize("4", 333) # type: ignore
 
     def test_sanitize_spaces(self) -> None:
         self.assertEqual(distance._sanitize("   asdf ", "asdf     "), ["asdf", "asdf"])
 
     def test_get_limit_less_than_max(self) -> None:
-        self.assertEqual(distance._get_limit(""), 0)
+        self.assertEqual(distance._get_limit([""]), 0)
 
     def test_clean(self) -> None:
         test: list[str] = ["", "cd", "", "", "ab"]
         distance._clean(test)
         self.assertEqual(test, ["cd", "ab"])
 
-    def test_get_transpositions(self) -> None:
+    def test_get_transpositions_once(self) -> None:
         self.assertEqual(distance._get_transpositions(["a", "b", "c"], ["a", "c", "b"]), 1)
 
-    def test_get_transpositions_special(self) -> None:
-        self.assertEqual(distance._get_transpositions(["2", "7", "0", "0", "0"], ["2", "7", "0", "0"]), 0.0)
+    def test_get_transpositions_none(self) -> None:
+        self.assertEqual(distance._get_transpositions(["2", "7", "0", "0"], ["2", "7", "0", "0"]), 0)
 
     def test_get_jaro_winkler_similarity_empty(self) -> None:
         self.assertEqual(distance.get_jaro_winkler_similarity("", ""), 1.0)

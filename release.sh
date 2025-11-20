@@ -9,8 +9,6 @@ if echo "$@" | grep -q -- 'help' || [[ ${#@} -lt 1 ]]; then
   exit 0
 fi
 
-stubgen --package pyjarowinkler --output .
-
 if ! git diff --quiet HEAD -- . ':(exclude)release.sh' ':(exclude)uv.lock'; then
   echo "Cannot proceed, there are uncommitted changes."
   echo "${USAGE_HELP}"

@@ -4,7 +4,7 @@ version = "2.1.1"
 description = "Finds the Jaro Winkler Distance indicating a distance or similarity score between two strings."
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE" }
-requires-python = ">= 3.9"
+requires-python = ">= 3.10"
 keywords = [
   "delta",
   "diff",
@@ -29,11 +29,11 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: Text Processing",
 ]
 dependencies = []

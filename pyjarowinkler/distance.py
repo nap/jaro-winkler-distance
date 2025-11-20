@@ -28,8 +28,7 @@ def _get_limit(long: list[str]) -> int:
 
 
 def _clean(assigned: list[str]) -> None:
-    for _ in range(assigned.count("")):
-        assigned.remove("")
+    assigned[:] = [x for x in assigned if x]
 
 
 def _get_transpositions(first: list[str], second: list[str]) -> int:
@@ -61,10 +60,13 @@ def _get_matches_and_transpositions(short: list[str], long: list[str]) -> tuple[
         left: int = max(0, position - limit)
         right: int = min(len(long), position + limit + 1)
 
-        if character in long[left:right]:
+        try:
             index: int = long.index(character, left, right)
             assigned_short[position] = assigned_long[index] = character
             long[index] = ""
+
+        except ValueError:
+            continue
 
     _clean(assigned_short)
     _clean(assigned_long)

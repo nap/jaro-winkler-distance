@@ -106,6 +106,15 @@ $$
 
 We found that the $\lceil sim_{w} \rceil$ is $0.9$.
 
+## Benchmark
+
+| Function | Minimum Time (1k runs of 10 pairs) |
+| :--- | :--- |
+| `get_jaro_similarity` | 0.0129s |
+| `get_jaro_distance` | 0.0130s |
+| `get_jaro_winkler_similarity` | 0.0155s |
+| `get_jaro_winkler_distance` | 0.0153s |
+
 ## Usage
 
 ```python

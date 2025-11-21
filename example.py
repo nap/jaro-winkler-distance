@@ -1,6 +1,6 @@
 """Example for using :func:`distance.get_jaro_distance` of the ``pyjarowinkler`` module."""
 
-__author__ = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"
+__author__: str = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"
 
 from pyjarowinkler import distance
 

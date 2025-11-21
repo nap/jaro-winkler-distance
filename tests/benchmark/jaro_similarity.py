@@ -1,4 +1,3 @@
-
 import timeit
 
 def benchmark():
@@ -20,7 +19,8 @@ pairs = [
     stmt = "[distance.get_jaro_similarity(p[0], p[1]) for p in pairs]"
     # Reduced number of runs since we are doing 10x work per run
     times = timeit.repeat(stmt, setup=setup, repeat=5, number=1000)
-    print(f"get_jaro_similarity (1k runs of 10 pairs): min={min(times):.4f}s, avg={sum(times)/len(times):.4f}s")
+    print(f"get_jaro_similarity (1k runs of 10 pairs): min={min(times):.4f}s, avg={sum(times) / len(times):.4f}s")
+
 
 if __name__ == "__main__":
     benchmark()

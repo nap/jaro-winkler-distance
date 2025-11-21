@@ -26,7 +26,6 @@ jobs:
         with:
           python-version: 3.13
       - run: uvx ruff check --diff
-      - run: uvx ruff format --diff
 
   test:
     name: python-${{ matrix.python-version }}

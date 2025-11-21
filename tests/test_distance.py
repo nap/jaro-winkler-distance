@@ -26,11 +26,11 @@ class TestDistance(unittest.TestCase):
 
     def test_sanitize_exception(self) -> None:
         with self.assertRaises(distance.JaroDistanceError):
-            distance._sanitize(None, None) # type: ignore
+            distance._sanitize(None, None)  # type: ignore
 
     def test_sanitize_exception_args(self) -> None:
         with self.assertRaises(distance.JaroDistanceError):
-            distance._sanitize("4", 333) # type: ignore
+            distance._sanitize("4", 333)  # type: ignore
 
     def test_sanitize_spaces(self) -> None:
         self.assertEqual(distance._sanitize("   asdf ", "asdf     "), ["asdf", "asdf"])

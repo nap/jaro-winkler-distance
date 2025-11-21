@@ -33,6 +33,10 @@ fi
 
 export VERSION=$(uv version --short --bump "${1}")
 
+[[ -d ./dist ]] && rm -vRf ./dist
+
+uv build
+
 if [[ "${PYPI_REPO}" == "main" ]]; then
   git add pyproject.toml uv.lock
   git commit -m "release version ${VERSION}"
@@ -42,9 +46,6 @@ if [[ "${PYPI_REPO}" == "main" ]]; then
   gh release create "v${VERSION}" ./dist/* --generate-notes
 fi
 
-[[ -d ./dist ]] && rm -vRf ./dist
-
-uv build
 uv publish --token "${!PYPI_REPO_AUTH}"
 
 echo "Done publishing ${VERSION}."

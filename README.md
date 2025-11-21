@@ -110,10 +110,10 @@ We found that the $\lceil sim_{w} \rceil$ is $0.9$.
 
 | Function | Minimum Time (1k runs of 10 pairs) |
 | :--- | :--- |
-| `get_jaro_similarity` | 0.0129s |
-| `get_jaro_distance` | 0.0130s |
-| `get_jaro_winkler_similarity` | 0.0155s |
-| `get_jaro_winkler_distance` | 0.0153s |
+| `get_jaro_similarity` | 0.0144s |
+| `get_jaro_distance` | 0.0146s |
+| `get_jaro_winkler_similarity` | 0.0169s |
+| `get_jaro_winkler_distance` | 0.0172s |
 
 ## Usage
 

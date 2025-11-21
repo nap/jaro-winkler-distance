@@ -1,12 +1,58 @@
 """Finds a non-euclidean distance or similarity between two strings."""
 
+import unicodedata
+
 from pyjarowinkler import JaroDistanceError
 
-__author__ = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"
+__author__: str = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"
 
 __DEFAULT_DECIMALS__: int = 2
 __DEFAULT_SCALING__: float = 0.1
 __MAX_PREFIX_LENGTH__: int = 4
+__MAX_SCALING__: float = 0.25
+
+
+class Comparative(object):
+    """
+    Helper container that sanitizes and stores two strings for Jaro-Winkler calculations.
+
+    Attributes:
+        first (str): Sanitized first string after normalization.
+        second (str): Sanitized second string after normalization.
+
+    """
+
+    def __init__(self, first: str, second: str, ignore_case: bool = False):
+        """
+        Initialize Comparative with two input strings, optionally uppercasing them if ignore_case is True.
+
+        Args:
+            first (str): Original first input string.
+            second (str): Original second input string.
+            ignore_case (bool, optional): If True, both strings are
+                converted to uppercase for case-insensitive comparison.
+
+        """
+        self.first: str = first
+        self.second: str = second
+        self.first, self.second = self._sanitize(self.first, self.second, ignore_case=ignore_case)
+
+    def _sanitize(self, first: str, second: str, ignore_case: bool = False) -> list[str]:
+        if not isinstance(first, str) or not isinstance(second, str):
+            raise JaroDistanceError("Both arguments must be strings.")
+
+        first = unicodedata.normalize("NFC", first)
+        second = unicodedata.normalize("NFC", second)
+
+        first, second = first.strip(), second.strip()
+        if len(first) > len(second):
+            first, second = second, first
+
+        if ignore_case:
+            first = first.upper()
+            second = second.upper()
+
+        return [first, second]
 
 
 def _get_prefix(short: str, long: str) -> int:
@@ -33,22 +79,6 @@ def _clean(assigned: list[str]) -> None:
 
 def _get_transpositions(first: list[str], second: list[str]) -> int:
     return sum(left != right for left, right in zip(first, second, strict=True)) // 2
-
-
-def _sanitize(first: str, second: str, *, ignore_case: bool = False) -> list[str]:
-    if not isinstance(first, str) or not isinstance(second, str):
-        message: str = "Cannot calculate distance from provided values."
-        raise JaroDistanceError(message)
-
-    first, second = first.strip(), second.strip()
-    if len(first) > len(second):
-        first, second = second, first
-
-    if ignore_case:
-        first = first.upper()
-        second = second.upper()
-
-    return [first, second]
 
 
 def _get_matches_and_transpositions(short: list[str], long: list[str]) -> tuple[int, int]:
@@ -89,43 +119,56 @@ def _similarity(short: str, long: str) -> float:
 
 
 def get_jaro_similarity(
-    first: str, second: str, *, decimals: int = __DEFAULT_DECIMALS__, ignore_case: bool = False
+    first: str, second: str, decimals: int = __DEFAULT_DECIMALS__, ignore_case: bool = False
 ) -> float:
     """
     Return the Jaro similarity of two strings.
 
-    :param first: String to calculate Jaro similarity for.
-    :param second: String to calculate Jaro similarity with.
-    :param ignore_case: Convert string to uppercase characters.
-    :param decimals: Number of decimals to allow in result, defaults to :data:`2`.
-    :raises JaroDistanceError: Raises an exception if provided arguments aren't strings.
-    :return: Similarity between the two provided strings.
+    Args:
+        first (str): String to calculate Jaro similarity for.
+        second (str): String to calculate Jaro similarity with.
+        ignore_case (bool, optional): Convert string to uppercase characters.
+        decimals (int, optional): Number of decimals to allow in result, defaults to 2.
+
+    Raises:
+        JaroDistanceError: If provided arguments aren't strings.
+
+    Returns:
+        float: Similarity between the two provided strings.
+
     """
-    short, long = _sanitize(first, second, ignore_case=ignore_case)
-    return round(_similarity(short, long), decimals)
+    comparative: Comparative = Comparative(first, second, ignore_case=ignore_case)
+
+    return round(_similarity(comparative.first, comparative.second), decimals)
 
 
 def get_jaro_distance(
-    first: str, second: str, *, decimals: int = __DEFAULT_DECIMALS__, ignore_case: bool = False
+    first: str, second: str, decimals: int = __DEFAULT_DECIMALS__, ignore_case: bool = False
 ) -> float:
     """
-    Return the Jaro distance (``1 - jaro_simiarity``) of two strings.
+    Return the Jaro distance (`1 - jaro_similarity`) of two strings.
 
-    :param first: String to calculate Jaro distance for.
-    :param second: String to calculate Jaro distance with.
-    :param ignore_case: Convert string to uppercase characters.
-    :param decimals: Number of decimals to allow in result, defaults to :data:`2`.
-    :raises JaroDistanceError: Raises an exception if provided arguments aren't strings.
-    :return: Similarity between the two provided strings.
+    Args:
+        first (str): String to calculate Jaro distance for.
+        second (str): String to calculate Jaro distance with.
+        ignore_case (bool, optional): Convert string to uppercase characters.
+        decimals (int, optional): Number of decimals to allow in result, defaults to 2.
+
+    Raises:
+        JaroDistanceError: If provided arguments aren't strings.
+
+    Returns:
+        float: Distance between the two provided strings.
+
     """
-    short, long = _sanitize(first, second, ignore_case=ignore_case)
-    return round(1 - _similarity(short, long), decimals)
+    comparative: Comparative = Comparative(first, second, ignore_case=ignore_case)
+
+    return round(1 - _similarity(comparative.first, comparative.second), decimals)
 
 
 def get_jaro_winkler_similarity(
     first: str,
     second: str,
-    *,
     scaling: float = __DEFAULT_SCALING__,
     decimals: int = __DEFAULT_DECIMALS__,
     ignore_case: bool = False,
@@ -133,42 +176,63 @@ def get_jaro_winkler_similarity(
     """
     Return the Jaro Winkler similarity of two strings.
 
-    :param first: String to calculate distance for.
-    :param second: String to calculate distance with.
-    :param ignore_case: Convert string to uppercase characters.
-    :param decimals: Number of decimals to allow in result.
-    :param winkler: Adds Winkler adjustment factor to the similarity calculation.
-    :param scaling: Scaling factor of the prefix of the compared strings, typically
-        between :data:`0.0` and :data:`0.25`, defaults to :data:`0.1`.
-    :raises JaroDistanceError: Raises an exception if provided arguments aren't strings.
-    :return: Distance with or without the scaled similarity.
+    Args:
+        first (str): String to calculate similarity for.
+        second (str): String to calculate similarity with.
+        scaling (float, optional): Scaling factor of the prefix of the compared strings, typically between 0.0 and 0.25,
+            defaults to 0.1.
+        decimals (int, optional): Number of decimals to allow in result.
+        ignore_case (bool, optional): Convert string to uppercase characters.
+
+    Raises:
+        JaroDistanceError: If provided arguments aren't strings.
+
+    Returns:
+        float: Jaro Winkler similarity score.
+
     """
-    short, long = _sanitize(first, second, ignore_case=ignore_case)
-    similarity: float = _similarity(short, long)
-    return round(similarity + (_get_prefix(short, long) * scaling * (1 - similarity)), decimals)
+    if scaling > __MAX_SCALING__ or scaling < 0:
+        raise JaroDistanceError("Provided value for scaling factor is invalid.")
+
+    comparative: Comparative = Comparative(first, second, ignore_case=ignore_case)
+    similarity: float = _similarity(comparative.first, comparative.second)
+
+    return round(
+        similarity + (_get_prefix(comparative.first, comparative.second) * scaling * (1 - similarity)), decimals
+    )
 
 
 def get_jaro_winkler_distance(
     first: str,
     second: str,
-    *,
     scaling: float = __DEFAULT_SCALING__,
     decimals: int = __DEFAULT_DECIMALS__,
     ignore_case: bool = False,
 ) -> float:
     """
-    Return the Jaro Winkler distance (``1 - jaro_winkler_simiarity``) of two strings.
+    Return the Jaro Winkler distance (`1 - jaro_winkler_similarity`) of two strings.
 
-    :param first: String to calculate distance for.
-    :param second: String to calculate distance with.
-    :param ignore_case: Convert string to uppercase characters.
-    :param decimals: Number of decimals to allow in result.
-    :param winkler: Adds Winkler adjustment factor to the similarity calculation.
-    :param scaling: Scaling factor of the prefix of the compared strings, typically
-        between :data:`0.0` and :data:`0.25`, defaults to :data:`0.1`.
-    :raises JaroDistanceError: Raises an exception if provided arguments aren't strings.
-    :return: Distance with or without the scaled similarity.
+    Args:
+        first (str): String to calculate distance for.
+        second (str): String to calculate distance with.
+        scaling (float, optional): Scaling factor of the prefix of the compared strings, typically between 0.0 and 0.25,
+            defaults to 0.1.
+        decimals (int, optional): Number of decimals to allow in result.
+        ignore_case (bool, optional): Convert string to uppercase characters.
+
+    Raises:
+        JaroDistanceError: If provided arguments aren't strings.
+
+    Returns:
+        float: Jaro Winkler distance score.
+
     """
-    short, long = _sanitize(first, second, ignore_case=ignore_case)
-    similarity: float = _similarity(short, long)
-    return round(1 - (similarity + (_get_prefix(short, long) * scaling * (1 - similarity))), decimals)
+    if scaling > __MAX_SCALING__ or scaling < 0:
+        raise JaroDistanceError("Provided value for scaling factor is invalid.")
+
+    comparative: Comparative = Comparative(first, second, ignore_case=ignore_case)
+    similarity: float = _similarity(comparative.first, comparative.second)
+
+    return round(
+        1 - (similarity + (_get_prefix(comparative.first, comparative.second) * scaling * (1 - similarity))), decimals
+    )

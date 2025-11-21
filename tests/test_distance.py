@@ -26,14 +26,15 @@ class TestDistance(unittest.TestCase):
 
     def test_sanitize_exception(self) -> None:
         with self.assertRaises(distance.JaroDistanceError):
-            distance._sanitize(None, None)  # type: ignore
+            distance.Comparative(None, None)  # type: ignore
 
     def test_sanitize_exception_args(self) -> None:
         with self.assertRaises(distance.JaroDistanceError):
-            distance._sanitize("4", 333)  # type: ignore
+            distance.Comparative("4", 333)  # type: ignore
 
     def test_sanitize_spaces(self) -> None:
-        self.assertEqual(distance._sanitize("   asdf ", "asdf     "), ["asdf", "asdf"])
+        comparative: distance.Comparative = distance.Comparative("   asdf ", "asdf     ")
+        self.assertEqual([comparative.first, comparative.second], ["asdf", "asdf"])
 
     def test_get_limit_less_than_max(self) -> None:
         self.assertEqual(distance._get_limit([""]), 0)
@@ -117,6 +118,9 @@ class TestDistance(unittest.TestCase):
 
     def test_get_jaro_similarity_faremviel(self) -> None:
         self.assertEqual(distance.get_jaro_similarity("faremviel", "farmville"), 0.88)
+
+    def test_get_jaro_winkler_similarity_unicode_normalization(self) -> None:
+        self.assertEqual(distance.get_jaro_winkler_similarity("café", "cafe\u0301"), 1.0)
 
 
 if __name__ == "__main__":

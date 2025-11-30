@@ -5,7 +5,9 @@ Finds the Jaro Winkler Distance indicating a distance or similarity score betwee
 :license: Apache 2.0, see :file:`LICENSE` for more details.
 """
 
-__author__: str = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"
+from typing import Final
+
+__author__: Final[str] = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"
 
 
 class JaroDistanceError(ValueError):

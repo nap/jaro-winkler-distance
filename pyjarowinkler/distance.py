@@ -1,14 +1,16 @@
 """Finds a non-euclidean distance or similarity between two strings."""
 
+from typing import Final
+
 from pyjarowinkler import JaroDistanceError
 from pyjarowinkler.comparative import Comparative
 
-__author__: str = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"
+__author__: Final[str] = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"
 
-__DEFAULT_DECIMALS__: int = 2
-__DEFAULT_SCALING__: float = 0.1
-__MAX_PREFIX_LENGTH__: int = 4
-__MAX_SCALING__: float = 0.25
+__DEFAULT_DECIMALS__: Final[int] = 2
+__DEFAULT_SCALING__: Final[float] = 0.1
+__MAX_PREFIX_LENGTH__: Final[int] = 4
+__MAX_SCALING__: Final[float] = 0.25
 
 
 def _get_prefix(short: str, long: str) -> int:

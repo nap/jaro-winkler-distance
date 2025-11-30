@@ -1,8 +1,7 @@
 """Finds a non-euclidean distance or similarity between two strings."""
 
-import unicodedata
-
 from pyjarowinkler import JaroDistanceError
+from pyjarowinkler.comparative import Comparative
 
 __author__: str = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"
 
@@ -10,49 +9,6 @@ __DEFAULT_DECIMALS__: int = 2
 __DEFAULT_SCALING__: float = 0.1
 __MAX_PREFIX_LENGTH__: int = 4
 __MAX_SCALING__: float = 0.25
-
-
-class Comparative(object):
-    """
-    Helper container that sanitizes and stores two strings for Jaro-Winkler calculations.
-
-    Attributes:
-        first (str): Sanitized first string after normalization.
-        second (str): Sanitized second string after normalization.
-
-    """
-
-    def __init__(self, first: str, second: str, ignore_case: bool = False):
-        """
-        Initialize Comparative with two input strings, optionally uppercasing them if ignore_case is True.
-
-        Args:
-            first (str): Original first input string.
-            second (str): Original second input string.
-            ignore_case (bool, optional): If True, both strings are
-                converted to uppercase for case-insensitive comparison.
-
-        """
-        self.first: str = first
-        self.second: str = second
-        self.first, self.second = self._sanitize(self.first, self.second, ignore_case=ignore_case)
-
-    def _sanitize(self, first: str, second: str, ignore_case: bool = False) -> list[str]:
-        if not isinstance(first, str) or not isinstance(second, str):
-            raise JaroDistanceError("Both arguments must be strings.")
-
-        first = unicodedata.normalize("NFC", first)
-        second = unicodedata.normalize("NFC", second)
-
-        first, second = first.strip(), second.strip()
-        if len(first) > len(second):
-            first, second = second, first
-
-        if ignore_case:
-            first = first.upper()
-            second = second.upper()
-
-        return [first, second]
 
 
 def _get_prefix(short: str, long: str) -> int:
@@ -161,9 +117,12 @@ def get_jaro_distance(
         float: Distance between the two provided strings.
 
     """
-    comparative: Comparative = Comparative(first, second, ignore_case=ignore_case)
+    try:
+        comparative: Comparative = Comparative(first, second, ignore_case=ignore_case)
+        return round(1 - _similarity(comparative.first, comparative.second), decimals)
 
-    return round(1 - _similarity(comparative.first, comparative.second), decimals)
+    except ValueError as e:
+        raise JaroDistanceError from e
 
 
 def get_jaro_winkler_similarity(
@@ -194,12 +153,16 @@ def get_jaro_winkler_similarity(
     if scaling > __MAX_SCALING__ or scaling < 0:
         raise JaroDistanceError("Provided value for scaling factor is invalid.")
 
-    comparative: Comparative = Comparative(first, second, ignore_case=ignore_case)
-    similarity: float = _similarity(comparative.first, comparative.second)
+    try:
+        comparative: Comparative = Comparative(first, second, ignore_case=ignore_case)
+        similarity: float = _similarity(comparative.first, comparative.second)
 
-    return round(
-        similarity + (_get_prefix(comparative.first, comparative.second) * scaling * (1 - similarity)), decimals
-    )
+        return round(
+            similarity + (_get_prefix(comparative.first, comparative.second) * scaling * (1 - similarity)), decimals
+        )
+
+    except ValueError as e:
+        raise JaroDistanceError from e
 
 
 def get_jaro_winkler_distance(
@@ -229,10 +192,14 @@ def get_jaro_winkler_distance(
     """
     if scaling > __MAX_SCALING__ or scaling < 0:
         raise JaroDistanceError("Provided value for scaling factor is invalid.")
+    try:
+        comparative: Comparative = Comparative(first, second, ignore_case=ignore_case)
+        similarity: float = _similarity(comparative.first, comparative.second)
 
-    comparative: Comparative = Comparative(first, second, ignore_case=ignore_case)
-    similarity: float = _similarity(comparative.first, comparative.second)
+        return round(
+            1 - (similarity + (_get_prefix(comparative.first, comparative.second) * scaling * (1 - similarity))),
+            decimals,
+        )
 
-    return round(
-        1 - (similarity + (_get_prefix(comparative.first, comparative.second) * scaling * (1 - similarity))), decimals
-    )
+    except ValueError as e:
+        raise JaroDistanceError from e

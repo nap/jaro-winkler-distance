@@ -24,18 +24,6 @@ class TestDistance(unittest.TestCase):
     def test_get_prefix_partial_prefix(self) -> None:
         self.assertEqual(distance._get_prefix("vache", "vagabon"), 2)
 
-    def test_sanitize_exception(self) -> None:
-        with self.assertRaises(distance.JaroDistanceError):
-            distance.Comparative(None, None)  # type: ignore
-
-    def test_sanitize_exception_args(self) -> None:
-        with self.assertRaises(distance.JaroDistanceError):
-            distance.Comparative("4", 333)  # type: ignore
-
-    def test_sanitize_spaces(self) -> None:
-        comparative: distance.Comparative = distance.Comparative("   asdf ", "asdf     ")
-        self.assertEqual([comparative.first, comparative.second], ["asdf", "asdf"])
-
     def test_get_limit_less_than_max(self) -> None:
         self.assertEqual(distance._get_limit([""]), 0)
 

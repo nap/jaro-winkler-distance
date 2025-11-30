@@ -10,38 +10,41 @@ class Comparative(object):
     Attributes:
         first (str): Sanitized first string after normalization.
         second (str): Sanitized second string after normalization.
-        ignore_case (bool): Normalize words with casefold.
-        norm_utf (bool): Normalize UTF-8 glyph.
+        norm_case (bool): Normalize words with casefold.
+        norm_utf8 (bool): Normalize UTF-8 glyph.
 
     """
 
-    def __init__(self, first: str, second: str, ignore_case: bool = False):
+    def __init__(self, first: str, second: str, norm_case: bool = False, norm_utf8: bool = True):
         """
-        Initialize Comparative with two input strings, optionally casefolding them if ignore_case is True.
+        Initialize Comparative with two input strings, optionally casefolding them if norm_case is True.
 
         Args:
             first (str): Original first input string.
             second (str): Original second input string.
-            ignore_case (bool, optional): If True, both strings are
+            norm_case (bool, optional): If True, both strings are
                 converted with casefold for case-insensitive comparison.
+            norm_utf8 (bool, optional): If True, both strings are
+                normalized from C (NFC).
 
         """
         self.first: str = first
         self.second: str = second
-        self.first, self.second = self._sanitize(self.first, self.second, ignore_case=ignore_case)
+        self.first, self.second = self._sanitize(self.first, self.second, norm_case=norm_case, norm_utf8=norm_utf8)
 
-    def _sanitize(self, first: str, second: str, ignore_case: bool = False) -> list[str]:
+    def _sanitize(self, first: str, second: str, norm_case: bool = False, norm_utf8: bool = True) -> list[str]:
         if not isinstance(first, str) or not isinstance(second, str):
             raise ValueError("Both arguments must be strings.")
 
-        first = unicodedata.normalize("NFC", first)
-        second = unicodedata.normalize("NFC", second)
+        if norm_utf8:
+            first = unicodedata.normalize("NFC", first)
+            second = unicodedata.normalize("NFC", second)
 
         first, second = first.strip(), second.strip()
         if len(first) > len(second):
             first, second = second, first
 
-        if ignore_case:
+        if norm_case:
             first = first.casefold()
             second = second.casefold()
 

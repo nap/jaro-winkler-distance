@@ -96,10 +96,10 @@ class TestDistance(unittest.TestCase):
         self.assertEqual(distance.get_jaro_similarity("amy", "mary"), 0.81)
 
     def test_get_jaro_winkler_similarity_hello_no_change(self) -> None:
-        self.assertEqual(distance.get_jaro_similarity("hello", "Haloa", ignore_case=False), 0.6)
+        self.assertEqual(distance.get_jaro_similarity("hello", "Haloa", norm_case=False), 0.6)
 
     def test_get_jaro_winkler_similarity_hello_changed(self) -> None:
-        self.assertEqual(distance.get_jaro_similarity("hello", "HaLoA", ignore_case=True), 0.73)
+        self.assertEqual(distance.get_jaro_similarity("hello", "HaLoA", norm_case=True), 0.73)
 
     def test_get_jaro_faremviel(self) -> None:
         self.assertEqual(distance.get_jaro_distance("faremviel", "farmville"), 0.12)

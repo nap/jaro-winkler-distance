@@ -58,7 +58,7 @@ module-name = ["pyjarowinkler"]
 source-exclude = [".*", "*.sh"]
 
 [tool.ruff]
-line-length = 120
+line-length = 130
 extend-exclude = [".github", "*.pyi"]
 
 [tool.ruff.lint]
@@ -70,7 +70,6 @@ ignore = ["D212", "D203"]
 
 [tool.ruff.lint.isort]
 case-sensitive = true
-lines-after-imports = 1
 known-local-folder = ["pyjarowinkler"]
 
 [tool.mypy]

@@ -1,5 +1,6 @@
 import timeit
 
+
 def benchmark():
     setup = """
 from pyjarowinkler import distance

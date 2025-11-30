@@ -1,5 +1,6 @@
 import timeit
 
+
 def benchmark():
     setup = """
 from pyjarowinkler import distance
@@ -18,9 +19,7 @@ pairs = [
 """
     stmt = "[distance.get_jaro_winkler_similarity(p[0], p[1]) for p in pairs]"
     times = timeit.repeat(stmt, setup=setup, repeat=5, number=1000)
-    print(
-        f"get_jaro_winkler_similarity (1k runs of 10 pairs): min={min(times):.4f}s, avg={sum(times) / len(times):.4f}s"
-    )
+    print(f"get_jaro_winkler_similarity (1k runs of 10 pairs): min={min(times):.4f}s, avg={sum(times) / len(times):.4f}s")
 
 
 if __name__ == "__main__":

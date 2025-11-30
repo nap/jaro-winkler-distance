@@ -10,20 +10,20 @@ class Comparative(object):
     Attributes:
         first (str): Sanitized first string after normalization.
         second (str): Sanitized second string after normalization.
-        ignore_case (bool): Normalize words to uppercase.
+        ignore_case (bool): Normalize words with casefold.
         norm_utf (bool): Normalize UTF-8 glyph.
 
     """
 
     def __init__(self, first: str, second: str, ignore_case: bool = False):
         """
-        Initialize Comparative with two input strings, optionally uppercasing them if ignore_case is True.
+        Initialize Comparative with two input strings, optionally casefolding them if ignore_case is True.
 
         Args:
             first (str): Original first input string.
             second (str): Original second input string.
             ignore_case (bool, optional): If True, both strings are
-                converted to uppercase for case-insensitive comparison.
+                converted with casefold for case-insensitive comparison.
 
         """
         self.first: str = first
@@ -42,7 +42,7 @@ class Comparative(object):
             first, second = second, first
 
         if ignore_case:
-            first = first.upper()
-            second = second.upper()
+            first = first.casefold()
+            second = second.casefold()
 
         return [first, second]

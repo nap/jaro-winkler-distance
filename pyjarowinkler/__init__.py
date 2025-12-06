@@ -15,11 +15,11 @@ class JaroDistanceError(ValueError):
     Exception raised for errors encountered during Jaro-Winkler distance calculations.
 
     Args:
-        message (str): Explanation of the error.
+        message (str, optional): Explanation of the error.
 
     """
 
-    def __init__(self, message: str) -> None:
+    def __init__(self, message: str | None = None) -> None:
         """
         Initialize the JaroDistanceError exception.
 

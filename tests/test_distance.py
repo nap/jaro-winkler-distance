@@ -108,7 +108,22 @@ class TestDistance(unittest.TestCase):
         self.assertEqual(distance.get_jaro_similarity("faremviel", "farmville"), 0.88)
 
     def test_get_jaro_winkler_similarity_unicode_normalization(self) -> None:
-        self.assertEqual(distance.get_jaro_winkler_similarity("café", "cafe\u0301"), 1.0)
+        self.assertEqual(distance.get_jaro_winkler_similarity("café", "cafe\u0301", norm_utf8=True), 1.0)
+
+    def test_get_jaro_winkler_distance_equal(self) -> None:
+        self.assertEqual(distance.get_jaro_winkler_distance("foo", "foo"), 0.0)
+
+    def test_get_jaro_winkler_distance_zero_similarity(self) -> None:
+        self.assertEqual(distance.get_jaro_winkler_distance("fly", "ant"), 1.0)
+
+    def test_get_jaro_winkler_distance_martha(self) -> None:
+        self.assertEqual(distance.get_jaro_winkler_distance("MARTHA", "MARHTA"), 0.04)
+
+    def test_get_jaro_winkler_distance_dwayne(self) -> None:
+        self.assertEqual(distance.get_jaro_winkler_distance("DWAYNE", "DUANE"), 0.16)
+
+    def test_get_jaro_winkler_distance_dixon(self) -> None:
+        self.assertEqual(distance.get_jaro_winkler_distance("DIXON", "DICKSONX"), 0.19)
 
 
 if __name__ == "__main__":

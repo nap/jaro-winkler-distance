@@ -18,6 +18,7 @@ This version is based on the [original C implementation of strcmp95](https://web
  * Impact of the prefix is limited to 4 characters, as originally defined by Winkler.
  * Input strings are not modified beyond whitespace trimming.
  * In-word whitespace and characters case will **optionally** impact score.
+ * Supports optional UTF-8 normalization and homoglyph sanitization.
  * Returns a floating point number rounded to the desired decimals (defaults to `2`) using Python's [`round`](https://docs.python.org/3/library/functions.html#round).
  * Consider usual [floating point arithmetic](https://docs.python.org/3/tutorial/floatingpoint.html#tut-fp-issues) characteristics when working with this module.
 
@@ -32,8 +33,6 @@ Here is how `matching` and `transposed` are defined in this module:
 * Characters in the first string are matched only once against characters of the second string.
 * Two characters are `transposed` if they previously matched and aren't at the same position in the matching character subset.
 * Decimals are rounded according to the scientific method.
-
-**TODO**: Implementation should be refactored to use Python's [Decimal](https://docs.python.org/3.13/library/decimal.html) module from the standard library. This module was introduced in Python 3.9.
 
 ### Example
 
@@ -110,10 +109,12 @@ We found that the $\lceil sim_{w} \rceil$ is $0.9$.
 
 | Function | Minimum Time (1k runs of 10 pairs) |
 | :--- | :--- |
-| `get_jaro_similarity` | 0.0144s |
-| `get_jaro_distance` | 0.0146s |
-| `get_jaro_winkler_similarity` | 0.0169s |
-| `get_jaro_winkler_distance` | 0.0172s |
+| `get_jaro_distance(s1, s2)` | 0.0149s |
+| `get_jaro_similarity(s1, s2)` | 0.0148s |
+| `get_jaro_winkler_distance(s1, s2)` | 0.0176s |
+| `get_jaro_winkler_similarity(s1, s2)` | 0.0172s |
+
+Benchmarking ran on a 2024 Macbook Pro with an M4 Pro chip running macOS 26.2.
 
 ## Usage
 
@@ -128,10 +129,14 @@ distance.get_jaro_distance("hello", "haloa", decimals=4)
 # 0.2667
 distance.get_jaro_similarity("hello", "haloa", decimals=2)
 # 0.73
-distance.get_jaro_winkler_distance("hello", "Haloa", scaling=0.1, ignore_case=False)
+distance.get_jaro_winkler_distance("hello", "Haloa", scaling=0.1, norm_case=False)
 # 0.4
-distance.get_jaro_winkler_distance("hello", "HaLoA", scaling=0.1, ignore_case=True)
+distance.get_jaro_winkler_distance("hello", "HaLoA", scaling=0.1, norm_case=True)
 # 0.24
+distance.get_jaro_winkler_similarity("café", "cafe\u0301", norm_utf8=True)
+# 1.0
+distance.get_jaro_winkler_similarity("pаypal", "paypal", norm_ambiguous=True)
+# 1.0
 distance.get_jaro_winkler_similarity("hello", "haloa", decimals=2)
 # 0.76
 ```

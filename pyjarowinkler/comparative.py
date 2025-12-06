@@ -1,6 +1,9 @@
 """Utilities for preparing and sanitizing string pairs for Jaro-Winkler distance calculations."""
 
-import unicodedata
+from typing import Final
+from unicodedata import normalize
+
+from .glyph import AMBIGUOUS
 
 
 class Comparative(object):
@@ -8,14 +11,14 @@ class Comparative(object):
     Helper container that sanitizes and stores two strings prepared for Jaro-Winkler calculations. See [ruff/rules/confusables](https://github.com/astral-sh/ruff/blob/69ace002102c7201f4514ffad87b87ce6a0d604f/crates/ruff_linter/src/rules/ruff/rules/confusables.rs#L5).
 
     Attributes:
-        first (str): Sanitized first string after normalization.
-        second (str): Sanitized second string after normalization.
-        norm_case (bool): Normalize words with casefold.
-        norm_utf8 (bool): Normalize UTF-8 glyph.
+        first (str): Sanitized first string (shortest) after normalization.
+        second (str): Sanitized second string (longest) after normalization.
 
     """
 
-    def __init__(self, first: str, second: str, norm_case: bool = False, norm_utf8: bool = True):
+    __ASCII_MAX__: Final[int] = 0x80
+
+    def __init__(self, first: str, second: str, norm_case: bool = False, norm_utf8: bool = True, norm_ambiguous: bool = True):
         """
         Initialize Comparative with two input strings, optionally casefolding them if norm_case is True.
 
@@ -26,26 +29,41 @@ class Comparative(object):
                 converted with casefold for case-insensitive comparison.
             norm_utf8 (bool, optional): If True, both strings are
                 normalized from C (NFC).
+            norm_ambiguous (bool, optional): Normalize ambiguous glyph.
 
         """
-        self.first: str = first
-        self.second: str = second
-        self.first, self.second = self._sanitize(self.first, self.second, norm_case=norm_case, norm_utf8=norm_utf8)
+        self.first: str = self._sanitize(first, norm_case=norm_case, norm_utf8=norm_utf8, norm_ambiguous=norm_ambiguous)
+        self.second: str = self._sanitize(second, norm_case=norm_case, norm_utf8=norm_utf8, norm_ambiguous=norm_ambiguous)
 
-    def _sanitize(self, first: str, second: str, norm_case: bool = False, norm_utf8: bool = True) -> list[str]:
-        if not isinstance(first, str) or not isinstance(second, str):
-            raise ValueError("Both arguments must be strings.")
+        if len(self.first) > len(self.second):
+            self.first, self.second = self.second, self.first
+
+    def _sanitize(self, word: str, norm_case: bool = False, norm_utf8: bool = True, norm_ambiguous: bool = False) -> str:
+        """
+        Sanitize input string.
+
+        Args:
+            word (str): Input string to sanitize.
+            norm_case (bool, optional): If True, string is converted with casefold.
+            norm_utf8 (bool, optional): If True, string is normalized using NFC form.
+            norm_ambiguous (bool, optional): Normalize ambiguous glyphs.
+
+        Returns:
+            str: Sanitized string.
+
+        """
+        if not isinstance(word, str):
+            raise ValueError("Argument must be a string.")
+
+        word = word.strip()
 
         if norm_utf8:
-            first = unicodedata.normalize("NFC", first)
-            second = unicodedata.normalize("NFC", second)
+            word = normalize("NFC", word)
 
-        first, second = first.strip(), second.strip()
-        if len(first) > len(second):
-            first, second = second, first
+        if norm_ambiguous:
+            word = word.translate(AMBIGUOUS)
 
         if norm_case:
-            first = first.casefold()
-            second = second.casefold()
+            word = word.casefold()
 
-        return [first, second]
+        return word

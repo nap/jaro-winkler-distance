@@ -1,3 +1,4 @@
+import os
 import timeit
 import unittest
 
@@ -30,14 +31,18 @@ pairs = [
         self.assertLess(min_time, 0.018, f"{func_name} failed benchmark: {min_time:.4f}s > 0.018s")
         return times
 
+    @unittest.skipIf(os.environ.get("CI") == "true", "Skipping this test in CI")
     def test_jaro_distance_benchmark(self):
         self._run_benchmark("get_jaro_distance")
 
+    @unittest.skipIf(os.environ.get("CI") == "true", "Skipping this test in CI")
     def test_jaro_similarity_benchmark(self):
         self._run_benchmark("get_jaro_similarity")
 
+    @unittest.skipIf(os.environ.get("CI") == "true", "Skipping this test in CI")
     def test_jaro_winkler_distance_benchmark(self):
         self._run_benchmark("get_jaro_winkler_distance")
 
+    @unittest.skipIf(os.environ.get("CI") == "true", "Skipping this test in CI")
     def test_jaro_winkler_similarity_benchmark(self):
         self._run_benchmark("get_jaro_winkler_similarity")

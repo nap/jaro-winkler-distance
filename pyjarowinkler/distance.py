@@ -77,7 +77,12 @@ def _similarity(short: str, long: str) -> float:
 
 
 def get_jaro_similarity(
-    first: str, second: str, decimals: int = __DEFAULT_DECIMALS__, norm_case: bool = False
+    first: str,
+    second: str,
+    decimals: int = __DEFAULT_DECIMALS__,
+    norm_case: bool = False,
+    norm_utf8: bool = False,
+    norm_ambiguous: bool = False,
 ) -> float:
     """
     Return the Jaro similarity of two strings.
@@ -86,6 +91,8 @@ def get_jaro_similarity(
         first (str): String to calculate Jaro similarity for.
         second (str): String to calculate Jaro similarity with.
         norm_case (bool, optional): Convert string to uppercase characters.
+        norm_utf8 (bool, optional): If True, both strings are normalized from C (NFC).
+        norm_ambiguous (bool, optional): Normalize ambiguous glyphs.
         decimals (int, optional): Number of decimals to allow in result, defaults to 2.
 
     Raises:
@@ -95,12 +102,19 @@ def get_jaro_similarity(
         float: Similarity between the two provided strings.
 
     """
-    comparative: Comparative = Comparative(first, second, norm_case=norm_case, norm_utf8=True)
+    comparative: Comparative = Comparative(first, second, norm_case=norm_case, norm_utf8=norm_utf8, norm_ambiguous=norm_ambiguous)
 
     return round(_similarity(comparative.first, comparative.second), decimals)
 
 
-def get_jaro_distance(first: str, second: str, decimals: int = __DEFAULT_DECIMALS__, norm_case: bool = False) -> float:
+def get_jaro_distance(
+    first: str,
+    second: str,
+    decimals: int = __DEFAULT_DECIMALS__,
+    norm_case: bool = False,
+    norm_utf8: bool = False,
+    norm_ambiguous: bool = False,
+) -> float:
     """
     Return the Jaro distance (`1 - jaro_similarity`) of two strings.
 
@@ -108,6 +122,8 @@ def get_jaro_distance(first: str, second: str, decimals: int = __DEFAULT_DECIMAL
         first (str): String to calculate Jaro distance for.
         second (str): String to calculate Jaro distance with.
         norm_case (bool, optional): Convert string to uppercase characters.
+        norm_utf8 (bool, optional): If True, both strings are normalized from C (NFC).
+        norm_ambiguous (bool, optional): Normalize ambiguous glyphs.
         decimals (int, optional): Number of decimals to allow in result, defaults to 2.
 
     Raises:
@@ -118,7 +134,9 @@ def get_jaro_distance(first: str, second: str, decimals: int = __DEFAULT_DECIMAL
 
     """
     try:
-        comparative: Comparative = Comparative(first, second, norm_case=norm_case, norm_utf8=True)
+        comparative: Comparative = Comparative(
+            first, second, norm_case=norm_case, norm_utf8=norm_utf8, norm_ambiguous=norm_ambiguous
+        )
         return round(1 - _similarity(comparative.first, comparative.second), decimals)
 
     except ValueError as e:
@@ -131,6 +149,8 @@ def get_jaro_winkler_similarity(
     scaling: float = __DEFAULT_SCALING__,
     decimals: int = __DEFAULT_DECIMALS__,
     norm_case: bool = False,
+    norm_utf8: bool = False,
+    norm_ambiguous: bool = False,
 ) -> float:
     """
     Return the Jaro Winkler similarity of two strings.
@@ -142,6 +162,8 @@ def get_jaro_winkler_similarity(
             defaults to 0.1.
         decimals (int, optional): Number of decimals to allow in result.
         norm_case (bool, optional): Convert string to uppercase characters.
+        norm_utf8 (bool, optional): If True, both strings are normalized from C (NFC).
+        norm_ambiguous (bool, optional): Normalize ambiguous glyphs.
 
     Raises:
         JaroDistanceError: If provided arguments aren't strings.
@@ -154,12 +176,12 @@ def get_jaro_winkler_similarity(
         raise JaroDistanceError("Provided value for scaling factor is invalid.")
 
     try:
-        comparative: Comparative = Comparative(first, second, norm_case=norm_case, norm_utf8=True)
+        comparative: Comparative = Comparative(
+            first, second, norm_case=norm_case, norm_utf8=norm_utf8, norm_ambiguous=norm_ambiguous
+        )
         similarity: float = _similarity(comparative.first, comparative.second)
 
-        return round(
-            similarity + (_get_prefix(comparative.first, comparative.second) * scaling * (1 - similarity)), decimals
-        )
+        return round(similarity + (_get_prefix(comparative.first, comparative.second) * scaling * (1 - similarity)), decimals)
 
     except ValueError as e:
         raise JaroDistanceError from e
@@ -171,6 +193,8 @@ def get_jaro_winkler_distance(
     scaling: float = __DEFAULT_SCALING__,
     decimals: int = __DEFAULT_DECIMALS__,
     norm_case: bool = False,
+    norm_utf8: bool = False,
+    norm_ambiguous: bool = False,
 ) -> float:
     """
     Return the Jaro Winkler distance (`1 - jaro_winkler_similarity`) of two strings.
@@ -182,6 +206,8 @@ def get_jaro_winkler_distance(
             defaults to 0.1.
         decimals (int, optional): Number of decimals to allow in result.
         norm_case (bool, optional): Convert string to uppercase characters.
+        norm_utf8 (bool, optional): If True, both strings are normalized from C (NFC).
+        norm_ambiguous (bool, optional): Normalize ambiguous glyphs.
 
     Raises:
         JaroDistanceError: If provided arguments aren't strings.
@@ -192,8 +218,11 @@ def get_jaro_winkler_distance(
     """
     if scaling > __MAX_SCALING__ or scaling < 0:
         raise JaroDistanceError("Provided value for scaling factor is invalid.")
+
     try:
-        comparative: Comparative = Comparative(first, second, norm_case=norm_case, norm_utf8=True)
+        comparative: Comparative = Comparative(
+            first, second, norm_case=norm_case, norm_utf8=norm_utf8, norm_ambiguous=norm_ambiguous
+        )
         similarity: float = _similarity(comparative.first, comparative.second)
 
         return round(

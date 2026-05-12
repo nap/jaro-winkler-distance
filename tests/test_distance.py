@@ -1,6 +1,6 @@
 import unittest
 
-from pyjarowinkler import distance
+from pyjarowinkler import JaroDistanceError, distance
 
 __author__ = "Jean-Bernard Ratte - jean.bernard.ratte@unary.ca"
 
@@ -24,8 +24,17 @@ class TestDistance(unittest.TestCase):
     def test_get_prefix_partial_prefix(self) -> None:
         self.assertEqual(distance._get_prefix("vache", "vagabon"), 2)
 
+    def test_get_limit_empty(self) -> None:
+        self.assertEqual(distance._get_limit([]), 0)
+
     def test_get_limit_less_than_max(self) -> None:
         self.assertEqual(distance._get_limit([""]), 0)
+
+    def test_get_limit_two_elements(self) -> None:
+        self.assertEqual(distance._get_limit(["a", "b"]), 0)
+
+    def test_get_limit_six_elements(self) -> None:
+        self.assertEqual(distance._get_limit(["a", "b", "c", "d", "e", "f"]), 2)
 
     def test_clean(self) -> None:
         test: list[str] = ["", "cd", "", "", "ab"]
@@ -95,10 +104,10 @@ class TestDistance(unittest.TestCase):
     def test_get_jaro_similarity_amy(self) -> None:
         self.assertEqual(distance.get_jaro_similarity("amy", "mary"), 0.81)
 
-    def test_get_jaro_winkler_similarity_hello_no_change(self) -> None:
+    def test_get_jaro_similarity_hello_no_change(self) -> None:
         self.assertEqual(distance.get_jaro_similarity("hello", "Haloa", norm_case=False), 0.6)
 
-    def test_get_jaro_winkler_similarity_hello_changed(self) -> None:
+    def test_get_jaro_similarity_hello_changed(self) -> None:
         self.assertEqual(distance.get_jaro_similarity("hello", "HaLoA", norm_case=True), 0.73)
 
     def test_get_jaro_faremviel(self) -> None:
@@ -124,6 +133,44 @@ class TestDistance(unittest.TestCase):
 
     def test_get_jaro_winkler_distance_dixon(self) -> None:
         self.assertEqual(distance.get_jaro_winkler_distance("DIXON", "DICKSONX"), 0.19)
+
+    def test_get_jaro_similarity_non_string(self) -> None:
+        with self.assertRaises(JaroDistanceError):
+            distance.get_jaro_similarity(123, "abc")  # type: ignore
+
+    def test_get_jaro_distance_non_string(self) -> None:
+        with self.assertRaises(JaroDistanceError):
+            distance.get_jaro_distance(123, "abc")  # type: ignore
+
+    def test_get_jaro_winkler_similarity_non_string(self) -> None:
+        with self.assertRaises(JaroDistanceError):
+            distance.get_jaro_winkler_similarity(123, "abc")  # type: ignore
+
+    def test_get_jaro_winkler_distance_non_string(self) -> None:
+        with self.assertRaises(JaroDistanceError):
+            distance.get_jaro_winkler_distance(123, "abc")  # type: ignore
+
+    def test_get_jaro_winkler_similarity_scaling_too_high(self) -> None:
+        with self.assertRaises(JaroDistanceError):
+            distance.get_jaro_winkler_similarity("foo", "bar", scaling=0.3)
+
+    def test_get_jaro_winkler_similarity_scaling_negative(self) -> None:
+        with self.assertRaises(JaroDistanceError):
+            distance.get_jaro_winkler_similarity("foo", "bar", scaling=-0.1)
+
+    def test_get_jaro_winkler_similarity_scaling_zero(self) -> None:
+        self.assertIsInstance(distance.get_jaro_winkler_similarity("foo", "bar", scaling=0.0), float)
+
+    def test_get_jaro_winkler_similarity_scaling_max(self) -> None:
+        self.assertIsInstance(distance.get_jaro_winkler_similarity("foo", "bar", scaling=0.25), float)
+
+    def test_get_jaro_winkler_distance_scaling_too_high(self) -> None:
+        with self.assertRaises(JaroDistanceError):
+            distance.get_jaro_winkler_distance("foo", "bar", scaling=0.3)
+
+    def test_get_jaro_winkler_distance_scaling_negative(self) -> None:
+        with self.assertRaises(JaroDistanceError):
+            distance.get_jaro_winkler_distance("foo", "bar", scaling=-0.1)
 
 
 if __name__ == "__main__":

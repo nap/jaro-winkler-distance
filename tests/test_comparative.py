@@ -37,7 +37,7 @@ class TestComparative(unittest.TestCase):
             with self.subTest(char=char):
                 self.assertEqual(self.comparative._sanitize(char, norm_ambiguous=True), char)
 
-    def test_ascii_whitespace_unchanged(self):
+    def test_ascii_whitespace_stripped(self):
         self.assertEqual(self.comparative._sanitize(" ", norm_ambiguous=True), "")
         self.assertEqual(self.comparative._sanitize("\t", norm_ambiguous=True), "")
         self.assertEqual(self.comparative._sanitize("\n", norm_ambiguous=True), "")
@@ -194,10 +194,9 @@ class TestComparative(unittest.TestCase):
                 self.assertEqual(self.comparative._sanitize(text, norm_ambiguous=True), expected)
 
     def test_all_homoglyphs_word(self):
-        all_homoglyphs = "РАΓРΑL"  # Cyrillic Р, А, Greek Γ, Р, Greek Α, Latin L
+        all_homoglyphs = "РАΓРΑL"  # Cyrillic Р→P, А→A, Greek Γ (unmapped), Р→P, Greek Α→A, Latin L
         result = self.comparative._sanitize(all_homoglyphs, norm_ambiguous=True)
-        self.assertIsInstance(result, str)
-        self.assertEqual(len(result), len(all_homoglyphs))
+        self.assertEqual(result, "PAΓPAL")
 
     def test_case_sensitivity(self):
         test_cases = [
@@ -208,6 +207,25 @@ class TestComparative(unittest.TestCase):
         for input_str, expected in test_cases:
             with self.subTest(input=input_str, expected=expected):
                 self.assertEqual(self.comparative._sanitize(input_str, norm_ambiguous=True), expected)
+
+    def test_norm_case(self):
+        self.assertEqual(self.comparative._sanitize("HELLO", norm_case=True), "hello")
+
+    def test_norm_case_false(self):
+        self.assertEqual(self.comparative._sanitize("HELLO", norm_case=False), "HELLO")
+
+    def test_norm_utf8(self):
+        self.assertEqual(self.comparative._sanitize("café", norm_utf8=True), "café")
+
+    def test_ordering_shorter_string_becomes_first(self):
+        comparative = Comparative("longer", "ab")
+        self.assertEqual(comparative.first, "ab")
+        self.assertEqual(comparative.second, "longer")
+
+    def test_ordering_equal_length_unchanged(self):
+        comparative = Comparative("abc", "xyz")
+        self.assertEqual(comparative.first, "abc")
+        self.assertEqual(comparative.second, "xyz")
 
     def test_common_phishing_domains(self):
         phishing_examples = [

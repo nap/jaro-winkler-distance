@@ -6,7 +6,7 @@ from unicodedata import normalize
 from .glyph import AMBIGUOUS
 
 
-class Comparative(object):
+class Comparative:
     """
     Helper container that sanitizes and stores two strings prepared for Jaro-Winkler calculations. See [ruff/rules/confusables](https://github.com/astral-sh/ruff/blob/69ace002102c7201f4514ffad87b87ce6a0d604f/crates/ruff_linter/src/rules/ruff/rules/confusables.rs#L5).
 
@@ -18,7 +18,7 @@ class Comparative(object):
 
     __ASCII_MAX__: Final[int] = 0x80
 
-    def __init__(self, first: str, second: str, norm_case: bool = False, norm_utf8: bool = True, norm_ambiguous: bool = True):
+    def __init__(self, first: str, second: str, norm_case: bool = False, norm_utf8: bool = False, norm_ambiguous: bool = False):
         """
         Initialize Comparative with two input strings, optionally casefolding them if norm_case is True.
 
@@ -38,7 +38,7 @@ class Comparative(object):
         if len(self.first) > len(self.second):
             self.first, self.second = self.second, self.first
 
-    def _sanitize(self, word: str, norm_case: bool = False, norm_utf8: bool = True, norm_ambiguous: bool = False) -> str:
+    def _sanitize(self, word: str, norm_case: bool = False, norm_utf8: bool = False, norm_ambiguous: bool = False) -> str:
         """
         Sanitize input string.
 

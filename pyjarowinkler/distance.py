@@ -14,17 +14,12 @@ __MAX_SCALING__: Final[float] = 0.25
 
 
 def _get_prefix(short: str, long: str) -> int:
-    if short[:__MAX_PREFIX_LENGTH__] == long[:__MAX_PREFIX_LENGTH__]:
-        return len(short[:__MAX_PREFIX_LENGTH__])
-
     prefix: int = 0
     for left, right in zip(short[:__MAX_PREFIX_LENGTH__], long[:__MAX_PREFIX_LENGTH__], strict=False):
         if left != right:
             break
-
         prefix += 1
-
-    return min(prefix, __MAX_PREFIX_LENGTH__)
+    return prefix
 
 
 def _get_limit(long: list[str]) -> int:
@@ -102,9 +97,12 @@ def get_jaro_similarity(
         float: Similarity between the two provided strings.
 
     """
-    comparative: Comparative = Comparative(first, second, norm_case=norm_case, norm_utf8=norm_utf8, norm_ambiguous=norm_ambiguous)
+    try:
+        comparative: Comparative = Comparative(first, second, norm_case=norm_case, norm_utf8=norm_utf8, norm_ambiguous=norm_ambiguous)
+        return round(_similarity(comparative.first, comparative.second), decimals)
 
-    return round(_similarity(comparative.first, comparative.second), decimals)
+    except ValueError as e:
+        raise JaroDistanceError from e
 
 
 def get_jaro_distance(

@@ -1,4 +1,9 @@
-"""Utilities for mapping ambiguous or similar unicode glyph."""
+"""Utilities for mapping ambiguous or similar unicode glyph.
+
+Some code points map to an empty string intentionally — these are invisible or
+formatting characters (zero-width joiners, decorative underscores, etc.) that
+have no meaningful ASCII equivalent and should be dropped during normalization.
+"""
 
 from typing import Final
 

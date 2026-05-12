@@ -27,4 +27,4 @@ class JaroDistanceError(ValueError):
             message (str): Explanation of the error.
 
         """
-        super(ValueError, self).__init__(message)
+        super().__init__(message)

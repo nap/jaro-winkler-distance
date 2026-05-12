@@ -20,6 +20,7 @@ This version is based on the [original C implementation of strcmp95](https://web
  * In-word whitespace and characters case will **optionally** impact score.
  * Supports optional UTF-8 normalization and homoglyph sanitization.
  * Returns a floating point number rounded to the desired decimals (defaults to `2`) using Python's [`round`](https://docs.python.org/3/library/functions.html#round).
+ * All functions raise `JaroDistanceError` if either argument is not a string, or if `scaling` is outside `[0.0, 0.25]`.
  * Consider usual [floating point arithmetic](https://docs.python.org/3/tutorial/floatingpoint.html#tut-fp-issues) characteristics when working with this module.
 
 ## Implementation
@@ -109,12 +110,12 @@ We found that the $\lceil sim_{w} \rceil$ is $0.9$.
 
 | Function | Minimum Time (1k runs of 10 pairs) |
 | :--- | :--- |
-| `get_jaro_distance(s1, s2)` | 0.0149s |
-| `get_jaro_similarity(s1, s2)` | 0.0148s |
-| `get_jaro_winkler_distance(s1, s2)` | 0.0176s |
-| `get_jaro_winkler_similarity(s1, s2)` | 0.0172s |
+| `get_jaro_distance(s1, s2)` | 0.0162s |
+| `get_jaro_similarity(s1, s2)` | 0.0160s |
+| `get_jaro_winkler_distance(s1, s2)` | 0.0196s |
+| `get_jaro_winkler_similarity(s1, s2)` | 0.0190s |
 
-Benchmarking ran on a 2024 Macbook Pro with an M4 Pro chip running macOS 26.2.
+Benchmarking ran on a 2024 Macbook Pro with an M4 Pro chip running macOS 26.2. The benchmark test suite enforces a `0.022s` threshold — a 10% margin above the slowest observed result — and is skipped in CI.
 
 ## Usage
 
